@@ -1,2 +1,18 @@
 # ZCAnimatedLabel
-UILabel focusing on custom appear &amp; disappear animation
+UILabel replacement with fine-grain appear/disappear animation
+
+
+
+
+
+# Requirements
+
+
+# Subclassing
+
+
+
+# Thanks to
+
+
+
