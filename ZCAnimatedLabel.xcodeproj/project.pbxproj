@@ -26,8 +26,6 @@
 		16AE47BE1AB13FF8001C1C72 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 16AE47B61AB13FF8001C1C72 /* main.m */; };
 		16AE47BF1AB13FF8001C1C72 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16AE47B81AB13FF8001C1C72 /* ViewController.m */; };
 		16AE47C51AB83097001C1C72 /* ZCSpinLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 16AE47C41AB83097001C1C72 /* ZCSpinLabel.m */; };
-		16AE47C91AB84389001C1C72 /* AGKTransformPixelMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 16AE47C81AB84389001C1C72 /* AGKTransformPixelMapper.m */; };
-		16AE47CC1AB8439D001C1C72 /* CGImageRef+AGK+CATransform3D.m in Sources */ = {isa = PBXBuildFile; fileRef = 16AE47CB1AB8439D001C1C72 /* CGImageRef+AGK+CATransform3D.m */; };
 		16DA893E1AB13BAD00A31A47 /* ZCShapeshiftLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 16DA893D1AB13BAD00A31A47 /* ZCShapeshiftLabel.m */; };
 /* End PBXBuildFile section */
 
@@ -67,10 +65,6 @@
 		16AE47B81AB13FF8001C1C72 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = ZCAnimatedLabel/ViewController.m; sourceTree = "<group>"; };
 		16AE47C31AB83097001C1C72 /* ZCSpinLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZCSpinLabel.h; sourceTree = "<group>"; };
 		16AE47C41AB83097001C1C72 /* ZCSpinLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZCSpinLabel.m; sourceTree = "<group>"; };
-		16AE47C71AB84389001C1C72 /* AGKTransformPixelMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGKTransformPixelMapper.h; sourceTree = "<group>"; };
-		16AE47C81AB84389001C1C72 /* AGKTransformPixelMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGKTransformPixelMapper.m; sourceTree = "<group>"; };
-		16AE47CA1AB8439D001C1C72 /* CGImageRef+AGK+CATransform3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CGImageRef+AGK+CATransform3D.h"; sourceTree = "<group>"; };
-		16AE47CB1AB8439D001C1C72 /* CGImageRef+AGK+CATransform3D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CGImageRef+AGK+CATransform3D.m"; sourceTree = "<group>"; };
 		16DA893C1AB13BAD00A31A47 /* ZCShapeshiftLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZCShapeshiftLabel.h; path = ZCAnimatedLabel/ZCShapeshiftLabel.h; sourceTree = "<group>"; };
 		16DA893D1AB13BAD00A31A47 /* ZCShapeshiftLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZCShapeshiftLabel.m; path = ZCAnimatedLabel/ZCShapeshiftLabel.m; sourceTree = "<group>"; };
 		24C5DFE2F6307197112AD6FC /* Pods-ZCMorphingLabel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZCMorphingLabel.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZCMorphingLabel/Pods-ZCMorphingLabel.release.xcconfig"; sourceTree = "<group>"; };
@@ -177,24 +171,12 @@
 		16AE47C21AB1415F001C1C72 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				16AE47C61AB84344001C1C72 /* 3D Transform */,
 				16668AE61AB049FA0047B706 /* ZCCoreTextLayout.h */,
 				16668AE71AB049FA0047B706 /* ZCCoreTextLayout.m */,
 				16668AEA1AB049FA0047B706 /* ZCEasingUtil.h */,
 				16668AEB1AB049FA0047B706 /* ZCEasingUtil.m */,
 			);
 			name = Utils;
-			sourceTree = "<group>";
-		};
-		16AE47C61AB84344001C1C72 /* 3D Transform */ = {
-			isa = PBXGroup;
-			children = (
-				16AE47C71AB84389001C1C72 /* AGKTransformPixelMapper.h */,
-				16AE47C81AB84389001C1C72 /* AGKTransformPixelMapper.m */,
-				16AE47CA1AB8439D001C1C72 /* CGImageRef+AGK+CATransform3D.h */,
-				16AE47CB1AB8439D001C1C72 /* CGImageRef+AGK+CATransform3D.m */,
-			);
-			name = "3D Transform";
 			sourceTree = "<group>";
 		};
 		987FBEBBD8288A25C6D87546 /* Frameworks */ = {
@@ -297,7 +279,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16AE47CC1AB8439D001C1C72 /* CGImageRef+AGK+CATransform3D.m in Sources */,
 				16668AFE1AB049FA0047B706 /* ZCAnimatedLabel.m in Sources */,
 				16668AFF1AB049FA0047B706 /* ZCCoreTextLayout.m in Sources */,
 				16668B081AB049FA0047B706 /* ZCThrownLabel.m in Sources */,
@@ -308,7 +289,6 @@
 				16668B021AB049FA0047B706 /* ZCFallLabel.m in Sources */,
 				16AE47B91AB13FF8001C1C72 /* AppDelegate.m in Sources */,
 				16668B011AB049FA0047B706 /* ZCEasingUtil.m in Sources */,
-				16AE47C91AB84389001C1C72 /* AGKTransformPixelMapper.m in Sources */,
 				16AE47BF1AB13FF8001C1C72 /* ViewController.m in Sources */,
 				16668B031AB049FA0047B706 /* ZCFlyinLabel.m in Sources */,
 				16668B001AB049FA0047B706 /* ZCDuangLabel.m in Sources */,
