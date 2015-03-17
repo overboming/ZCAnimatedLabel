@@ -20,17 +20,17 @@
     return self;
 }
 
-- (void) customAttributeInit:(ZCTextAttribute *)attribute
+- (void) customAttributeInit:(ZCTextBlock *)attribute
 {
 }
 
-- (CGRect) customRedrawAreaWithRect: (CGRect) rect attribute: (ZCTextAttribute *) attribute
+- (CGRect) customRedrawAreaWithRect: (CGRect) rect attribute: (ZCTextBlock *) attribute
 {
     CGRect charRect = attribute.charRect;
     return CGRectMake(0, charRect.origin.y, rect.size.width, rect.size.height - charRect.origin.y);
 }
 
-- (void) customAppearDrawingForRect: (CGRect) rect attribute: (ZCTextAttribute *) attribute
+- (void) customAppearDrawingForRect: (CGRect) rect attribute: (ZCTextBlock *) attribute
 {
     CGFloat scale = [ZCEasingUtil easeOutWithStartValue:5 endValue:1 time:attribute.progress];
     CGFloat alpha = [ZCEasingUtil easeOutWithStartValue:0 endValue:1 time:attribute.progress];

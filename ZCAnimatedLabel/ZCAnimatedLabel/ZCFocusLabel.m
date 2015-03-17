@@ -91,12 +91,12 @@
     return self;
 }
 
-- (void) customAttributeInit:(ZCTextAttribute *)attribute
+- (void) customAttributeInit:(ZCTextBlock *)attribute
 {
     
 }
 
-- (void) customAppearDrawingForRect: (CGRect) rect attribute: (ZCTextAttribute *) attribute
+- (void) customAppearDrawingForRect: (CGRect) rect attribute: (ZCTextBlock *) attribute
 {
     CGFloat alpha = [ZCEasingUtil easeInWithStartValue:0 endValue:1 time:attribute.progress];
     if (attribute.progress <= 0 || alpha < 0.01) {

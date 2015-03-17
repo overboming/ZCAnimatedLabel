@@ -31,7 +31,7 @@ typedef NS_ENUM(NSInteger, ZCAnimatedLabelAppearDirection)
 /*
  * start time offset for each group
  */
-@property (nonatomic, assign) CGFloat animationDiff;
+@property (nonatomic, assign) CGFloat animationDelay;
 
 /*
  * duration for the label to finish animation on screen
@@ -78,16 +78,16 @@ typedef NS_ENUM(NSInteger, ZCAnimatedLabelAppearDirection)
 /*
  * custom drawing
  */
-- (void) customAppearDrawingForRect: (CGRect) rect attribute: (ZCTextAttribute *) attribute;
+- (void) customAppearDrawingForRect: (CGRect) rect attribute: (ZCTextBlock *) attribute;
 
-- (void) customDisappearDrawingForRect: (CGRect) rect attribute: (ZCTextAttribute *) attribute;
+- (void) customDisappearDrawingForRect: (CGRect) rect attribute: (ZCTextBlock *) attribute;
 
-- (void) customAttributeInit: (ZCTextAttribute *) attribute;
+- (void) customAttributeInit: (ZCTextBlock *) attribute;
 
 /*
  * override this to decide which part of the rect needs redraw
  */
-- (CGRect) customRedrawAreaWithRect: (CGRect) rect attribute: (ZCTextAttribute *) attribute;
+- (CGRect) customRedrawAreaWithRect: (CGRect) rect attribute: (ZCTextBlock *) attribute;
 
 
 @end

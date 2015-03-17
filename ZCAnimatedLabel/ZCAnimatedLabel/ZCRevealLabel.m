@@ -19,11 +19,11 @@
     return self;
 }
 
-- (void) customAttributeInit:(ZCTextAttribute *)attribute
+- (void) customAttributeInit:(ZCTextBlock *)attribute
 {
 }
 
-- (void) customAppearDrawingForRect: (CGRect) rect attribute: (ZCTextAttribute *) attribute
+- (void) customAppearDrawingForRect: (CGRect) rect attribute: (ZCTextBlock *) attribute
 {
     if (attribute.progress <= 0.0f) {
         return;

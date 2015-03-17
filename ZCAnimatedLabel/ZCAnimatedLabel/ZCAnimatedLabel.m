@@ -17,9 +17,9 @@
 @property (nonatomic, assign) BOOL useDefaultDrawing;
 @property (nonatomic, assign) BOOL drawsCharRect;
 @property (nonatomic, assign) NSTimeInterval animationDurationTotal;
-@property (nonatomic, assign) BOOL animatingAppear;
+@property (nonatomic, assign) BOOL animatingAppear; //we are during appear stage or not
 @property (nonatomic, strong) ZCCoreTextLayout *layoutTool;
-
+@property (nonatomic, assign) NSTimeInterval animationStarTime;
 @end
 
 @implementation ZCAnimatedLabel
@@ -49,7 +49,7 @@
     _displayLink.paused = YES;
     
     _animationDuration = 1;
-    _animationDiff = 0.1;
+    _animationDelay = 0.1;
     _appearDirection = ZCAnimatedLabelAppearDirectionFromBottom;
     _layoutTool = [[ZCCoreTextLayout alloc] init];
     _onlyDrawDirtyArea = YES;
@@ -58,8 +58,7 @@
     _text = @"";
     _font = [UIFont systemFontOfSize:10];
     
-//    self.backgroundColor = [UIColor yellowColor];
-//    self.drawsCharRect = YES;
+    self.drawsCharRect = YES;
 }
 
 
@@ -70,7 +69,10 @@
 
 - (void) timerTick: (id) sender
 {
-    self.animationTime += self.displayLink.duration;
+    if (self.animationStarTime <= 0) {
+        self.animationStarTime = self.displayLink.timestamp;
+    }
+    self.animationTime = self.displayLink.timestamp - self.animationStarTime;
     if (self.animationTime > self.animationDurationTotal) {
         self.displayLink.paused = YES;
         self.useDefaultDrawing = YES;
@@ -78,11 +80,11 @@
     else { //update text attributeds array
         
         [self.layoutTool.textAttributes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            ZCTextAttribute *attribute = self.layoutTool.textAttributes[idx];
+            ZCTextBlock *attribute = self.layoutTool.textAttributes[idx];
             NSUInteger sequence = self.animatingAppear ? idx : (self.layoutTool.textAttributes.count - idx - 1);
             //udpate attribute according to progress
             CGFloat progress = 0;
-            CGFloat startDelay = attribute.startDelay > 0 ? attribute.startDelay : sequence * self.animationDiff;
+            CGFloat startDelay = attribute.startDelay > 0 ? attribute.startDelay : sequence * self.animationDelay;
             NSTimeInterval timePassed = self.animationTime - startDelay;
             CGFloat duration = attribute.duration > 0 ? attribute.duration : self.animationDuration;
             if (timePassed > duration && !attribute.ended) {
@@ -117,11 +119,11 @@
     [self.layoutTool layoutWithAttributedString:self.attributedString constainedToSize:self.frame.size];
     __block CGFloat maxDuration = 0;
     [self.layoutTool.textAttributes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        ZCTextAttribute *attribute = obj;
+        ZCTextBlock *attribute = obj;
         [self customAttributeInit:attribute];
         
         CGFloat duration = attribute.duration > 0 ? attribute.duration : self.animationDuration;
-        CGFloat startDelay = attribute.startDelay > 0 ? attribute.startDelay : idx * self.animationDiff;
+        CGFloat startDelay = attribute.startDelay > 0 ? attribute.startDelay : idx * self.animationDelay;
         CGFloat realStartDelay = startDelay + duration;
         if (realStartDelay > maxDuration) {
             maxDuration = realStartDelay;
@@ -188,7 +190,7 @@
     self.animationTime = 0;
     self.useDefaultDrawing = NO;
     self.displayLink.paused = NO;
-    
+    self.animationStarTime = 0;
     [self setNeedsDisplay]; //draw all rects
 }
 
@@ -203,9 +205,10 @@
     self.animationTime = 0;
     self.useDefaultDrawing = NO;
     self.displayLink.paused = NO;
+    self.animationStarTime = 0;
 }
 
-- (CGRect) customRedrawAreaWithRect: (CGRect) rect attribute: (ZCTextAttribute *) attribute
+- (CGRect) customRedrawAreaWithRect: (CGRect) rect attribute: (ZCTextBlock *) attribute
 {
     return  attribute.charRect;
 }
@@ -215,7 +218,7 @@
  *  Draw characters of different font size instead of using scale
  *  This might not be optimal but servies as an alternative.
  */
-- (void) customAppearDrawingForRect:(CGRect)rect attribute:(ZCTextAttribute *)attribute
+- (void) customAppearDrawingForRect:(CGRect)rect attribute:(ZCTextBlock *)attribute
 {
     CGFloat realProgress = [ZCEasingUtil bounceWithStiffness:0.01 numberOfBounces:1 time:attribute.progress shake:NO shouldOvershoot:NO];
     if (attribute.progress <= 0.0f) {
@@ -251,7 +254,7 @@
     CGContextRestoreGState(context);
 }
 
-- (void) customDisappearDrawingForRect:(CGRect)rect attribute:(ZCTextAttribute *)attribute
+- (void) customDisappearDrawingForRect:(CGRect)rect attribute:(ZCTextBlock *)attribute
 {
     attribute.progress = 1 - attribute.progress; //default implementation, might not looks right
     [self customAppearDrawingForRect:rect attribute:attribute];
@@ -277,7 +280,7 @@
         CGContextFillRect(context, rect);        
     }
     
-    for (ZCTextAttribute *attribute in self.layoutTool.textAttributes) {
+    for (ZCTextBlock *attribute in self.layoutTool.textAttributes) {
         if (!CGRectIntersectsRect(rect, attribute.charRect)) {
             continue; //skip this text redraw
         }
@@ -318,7 +321,7 @@
 }
 
 
-- (void) customAttributeInit: (ZCTextAttribute *) attribute
+- (void) customAttributeInit: (ZCTextBlock *) attribute
 {
     //override this in subclass
 }

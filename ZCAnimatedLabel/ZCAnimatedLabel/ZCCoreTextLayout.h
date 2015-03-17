@@ -19,26 +19,32 @@ typedef NS_ENUM(NSInteger, ZCLayoutGroupType)
 };
 
 
-@interface ZCTextAttribute : NSObject
+@interface ZCTextBlock : NSObject
 
 @property (nonatomic, assign) CGRect charRect;
 @property (nonatomic, copy) NSString *text;
 @property (nonatomic, assign) NSRange textRange;
 
-@property (nonatomic, readonly) UIColor *derivedTextColor;
-@property (nonatomic, readonly) UIFont *derivedFont;
-@property (nonatomic, readonly) NSAttributedString *derivedAttributedString;
-
 /*if wanted to override default value from attributedString*/
 @property (nonatomic, strong) UIFont *font;
 @property (nonatomic, strong) UIColor *textColor;
 
-@property (nonatomic, assign) BOOL ended;
+/*
+ * attributes derived from current draw state, used to draw
+ */
+@property (nonatomic, readonly) UIColor *derivedTextColor;
+@property (nonatomic, readonly) UIFont *derivedFont;
+@property (nonatomic, readonly) NSAttributedString *derivedAttributedString;
+
+@property (nonatomic, assign) BOOL ended; //flag, won't redraw if set to YES
 @property (nonatomic, assign) CGFloat progress;
 @property (nonatomic, assign) CGFloat startDelay;
 @property (nonatomic, assign) CGFloat duration;
 
-@property (nonatomic, assign) CGFloat customValue;
+/*
+ * place holder
+ */
+@property (nonatomic, strong) id customValue;
 
 - (void) updateBaseAttributedString: (NSAttributedString *) attributedString;
 

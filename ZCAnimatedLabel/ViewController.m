@@ -28,6 +28,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.label = [[ZCAnimatedLabel alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(self.debugRedraw.frame) + 15, self.view.frame.size.width - 30, CGRectGetHeight(self.view.frame) - CGRectGetMaxY(self.debugRedraw.frame))];
+    self.label.backgroundColor = [UIColor colorWithRed:0.86 green:0.83 blue:0.77 alpha:1];
     [self.view addSubview:self.label];
 }
 
@@ -108,16 +109,22 @@
 - (void) animateLabelAppear: (BOOL) appear
 {
     self.label.animationDuration = self.durationSlider.value;
-    self.label.animationDiff = self.diffSlider.value;
-    self.label.text = @"When lilacs last in the door-yard bloom’d,\nAnd the great star early droop’d in the western sky in the night,\nI mourn’d—and yet shall mourn with ever-returning spring.";
+    self.label.animationDelay = self.diffSlider.value;
+    self.label.text = @"When lilacs last in the door-yard bloom’d,\n当紫丁香最近在庭园中开放的时候，\nAnd the great star early droop’d in the western sky in the night,\n那颗硕大的星星在西方的夜空陨落了，\nI mourn’d—and yet shall mourn with ever-returning spring.\n我哀悼着，并将随着一年一度的春光永远地哀悼着。";
     NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-    style.lineSpacing = 4;
-    style.alignment = NSTextAlignmentLeft;
-    NSMutableAttributedString *mutableString = [[[NSAttributedString alloc] initWithString:self.label.text attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:22], NSParagraphStyleAttributeName : style, NSForegroundColorAttributeName : [UIColor blackColor]}] mutableCopy];
+    style.lineSpacing = 5;
+    style.alignment = NSTextAlignmentCenter;
+    NSMutableAttributedString *mutableString = [[[NSAttributedString alloc] initWithString:self.label.text attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:20], NSParagraphStyleAttributeName : style, NSForegroundColorAttributeName : [UIColor blackColor]}] mutableCopy];
     [mutableString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:[mutableString.string rangeOfString:@"sky"]];
-    [mutableString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:30] range:[mutableString.string rangeOfString:@"sky"]];
+    [mutableString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:28] range:[mutableString.string rangeOfString:@"sky"]];
     [mutableString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:0.7843 green:0.6352 blue:0.7843 alpha:1] range:[mutableString.string rangeOfString:@"lilacs"]];
     [mutableString addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor] range:[mutableString.string rangeOfString:@"spring"]];
+    
+    [mutableString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:[mutableString.string rangeOfString:@"夜空"]];
+    [mutableString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:28] range:[mutableString.string rangeOfString:@"夜空"]];
+    [mutableString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:0.7843 green:0.6352 blue:0.7843 alpha:1] range:[mutableString.string rangeOfString:@"紫丁香"]];
+    [mutableString addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor] range:[mutableString.string rangeOfString:@"春光"]];
+
     self.label.attributedString = mutableString;
     
     if (appear) {

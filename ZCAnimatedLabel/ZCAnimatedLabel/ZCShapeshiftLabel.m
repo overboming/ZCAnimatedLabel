@@ -19,7 +19,7 @@
     return self;
 }
 
-- (void) customAppearDrawingForRect: (CGRect) rect attribute: (ZCTextAttribute *) attribute
+- (void) customAppearDrawingForRect: (CGRect) rect attribute: (ZCTextBlock *) attribute
 {
     CGFloat alpha = [ZCEasingUtil easeInWithStartValue:0 endValue:1 time:attribute.progress];
     if (alpha < 0.01) {

@@ -12,13 +12,13 @@
 #import <UIKit/UIKit.h>
 #import "ZCCoreTextLayout.h"
 
-@interface ZCTextAttribute ()
+@interface ZCTextBlock ()
 
 @property (nonatomic, readwrite) NSAttributedString *derivedAttributedString;
 
 @end
 
-@implementation ZCTextAttribute
+@implementation ZCTextBlock
 
 - (NSString *) description
 {
@@ -158,15 +158,18 @@
         
         //first pass
         __block CGFloat maxDescender = 0;
+        __block CGFloat maxCharHeight = 0;
         [lineString enumerateSubstringsInRange:NSMakeRange(0, lineRange.length) options:options usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
             NSMutableAttributedString *subLineString = [[attributedString attributedSubstringFromRange:NSMakeRange(enclosingRange.location + lineRange.location, enclosingRange.length)] mutableCopy];
             UIFont *font = [subLineString attribute:NSFontAttributeName atIndex:0 effectiveRange:NULL];
             maxDescender = MAX(maxDescender, font.descender > 0 ? font.descender : -font.descender);
+            maxCharHeight = MAX(maxCharHeight, font.xHeight + font.ascender + font.descender);
         }];
          
         [lineString enumerateSubstringsInRange:NSMakeRange(0, lineRange.length) options:options usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
-            ZCTextAttribute *attribute = [[ZCTextAttribute alloc] init];
+            ZCTextBlock *attribute = [[ZCTextBlock alloc] init];
             attribute.text = [lineString substringWithRange:enclosingRange];
+            attribute.textRange = enclosingRange;
             NSMutableAttributedString *subLineString = [[attributedString attributedSubstringFromRange:NSMakeRange(enclosingRange.location + lineRange.location, enclosingRange.length)] mutableCopy];
             [subLineString removeAttribute:NSParagraphStyleAttributeName range:NSMakeRange(0, subLineString.length)];
             UIFont *font = [subLineString attribute:NSFontAttributeName atIndex:0 effectiveRange:NULL];
@@ -177,7 +180,7 @@
             
             CGFloat realHeight = font.xHeight + font.ascender + font.descender;
             CGFloat absAscender = font.descender > 0 ? font.descender : -font.descender;
-            CGFloat originDiff = lineHeight - realHeight - (maxDescender - absAscender);
+            CGFloat originDiff = (maxCharHeight - realHeight) - (maxDescender - absAscender);
 
             if (self.groupType == ZCLayoutGroupLine) {
                 realHeight = lineHeight;

@@ -21,19 +21,19 @@
     return self;
 }
 
-- (void) customAttributeInit: (ZCTextAttribute *) attribute
+- (void) customAttributeInit: (ZCTextBlock *) attribute
 {
-    attribute.customValue = (int)(arc4random() % 7) - 3;
+    attribute.customValue = @((int)(arc4random() % 7) - 3);
     
 }
 
-- (CGRect) customRedrawAreaWithRect:(CGRect)rect attribute:(ZCTextAttribute *)attribute
+- (CGRect) customRedrawAreaWithRect:(CGRect)rect attribute:(ZCTextBlock *)attribute
 {
     CGRect charRect = attribute.charRect;
     return CGRectMake(charRect.origin.x - attribute.derivedFont.pointSize / 2, charRect.origin.y - attribute.derivedFont.pointSize * 5, charRect.size.width + attribute.derivedFont.pointSize, charRect.size.height + attribute.derivedFont.pointSize * 5);
 }
 
-- (void) customAppearDrawingForRect: (CGRect) rect attribute: (ZCTextAttribute *) attribute
+- (void) customAppearDrawingForRect: (CGRect) rect attribute: (ZCTextBlock *) attribute
 {
     CGFloat height = [ZCEasingUtil bounceWithStiffness:0.01 numberOfBounces:1 time:attribute.progress shake:NO shouldOvershoot:NO startValue:CGRectGetMaxY(attribute.charRect) - attribute.derivedFont.pointSize * 5  endValue:CGRectGetMaxY(attribute.charRect)];
     
@@ -48,7 +48,7 @@
     CGContextTranslateCTM(context, CGRectGetMidX(attribute.charRect), height);
     CGFloat rotateValue = 0;
     CGFloat segment = 0.2;
-    CGFloat maxRotate = attribute.customValue * M_PI / 32;
+    CGFloat maxRotate = [attribute.customValue integerValue] * M_PI / 32;
     if (attribute.progress <= segment) {
         rotateValue = maxRotate;
     }
