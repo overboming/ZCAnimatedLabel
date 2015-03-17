@@ -48,6 +48,7 @@ typedef NS_ENUM(NSInteger, ZCAnimatedLabelAppearDirection)
 @property (nonatomic, strong) NSAttributedString *attributedString;
 
 @property (nonatomic, assign) BOOL debugRedraw;
+@property (nonatomic, assign) BOOL drawsCharRect;
 
 /**
  * if set to NO, whole rect will be redrawn on displayLinkTick

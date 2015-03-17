@@ -15,7 +15,6 @@
 @property (nonatomic, strong) CADisplayLink *displayLink;
 @property (nonatomic, assign) NSTimeInterval animationTime;
 @property (nonatomic, assign) BOOL useDefaultDrawing;
-@property (nonatomic, assign) BOOL drawsCharRect;
 @property (nonatomic, assign) NSTimeInterval animationDurationTotal;
 @property (nonatomic, assign) BOOL animatingAppear; //we are during appear stage or not
 @property (nonatomic, strong) ZCCoreTextLayout *layoutTool;
@@ -58,7 +57,7 @@
     _text = @"";
     _font = [UIFont systemFontOfSize:10];
     
-    self.drawsCharRect = YES;
+    _drawsCharRect = NO;
 }
 
 
@@ -266,6 +265,12 @@
     self.displayLink.paused = YES;
 }
 
+- (void) setDrawsCharRect:(BOOL)drawsCharRect
+{
+    _drawsCharRect = drawsCharRect;
+    [self setNeedsDisplay];
+}
+
 - (void) drawRect:(CGRect)rect
 {
     [super drawRect:rect];
@@ -285,15 +290,14 @@
             continue; //skip this text redraw
         }
 
+        if (self.drawsCharRect) {
+            CGContextRef context = UIGraphicsGetCurrentContext();
+            CGContextSetStrokeColorWithColor(context, [UIColor redColor].CGColor);
+            CGContextAddRect(context, attribute.charRect);
+            CGContextStrokePath(context);
+        }
+        
         if (self.useDefaultDrawing) {
-
-            if (self.drawsCharRect) {
-                CGContextRef context = UIGraphicsGetCurrentContext();
-                CGContextSetStrokeColorWithColor(context, [UIColor redColor].CGColor);
-                CGContextAddRect(context, attribute.charRect);
-                CGContextStrokePath(context);
-            }
-            
             if (self.animatingAppear) {
                 [attribute.derivedAttributedString drawInRect:attribute.charRect];
             }            

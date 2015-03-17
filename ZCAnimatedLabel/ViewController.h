@@ -18,7 +18,7 @@
 @property (atomic) IBOutlet UITextField *titleTextField;
 @property (atomic) IBOutlet UILabel *durationLabel;
 @property (atomic) IBOutlet UILabel *diffLabel;
-@property (atomic) IBOutlet UISwitch *debugRedraw;
+
 @property (atomic) IBOutlet UISegmentedControl *labelSegment;
 @property (atomic) IBOutlet UISegmentedControl *breakSegment;
 @property (nonatomic, strong) ZCAnimatedLabel *label;
@@ -27,6 +27,7 @@
 
 @property (atomic) IBOutlet UIButton *animateAppearButton;
 @property (atomic) IBOutlet UIButton *animateDisappearButton;
-
+@property (atomic) IBOutlet UISwitch *debugRedraw;
+@property (atomic) IBOutlet UISwitch *debugFrames;
 @end
 

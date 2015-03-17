@@ -145,6 +145,10 @@
     [self animateLabelAppear:NO];
 }
 
+- (IBAction)debugCharRect:(id)sender
+{
+    self.label.drawsCharRect = self.debugFrames.isOn;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
