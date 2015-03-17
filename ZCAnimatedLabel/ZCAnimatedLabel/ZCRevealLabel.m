@@ -31,7 +31,7 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
     
-    CGRect boundingBox = attribute.boundingBox;
+    CGRect boundingBox = attribute.charRect;
     
     CGFloat maxRadius = boundingBox.size.width > boundingBox.size.height ? boundingBox.size.width : boundingBox.size.height;
     CGFloat radius = [ZCEasingUtil easeOutWithStartValue:0 endValue:maxRadius time:attribute.progress];

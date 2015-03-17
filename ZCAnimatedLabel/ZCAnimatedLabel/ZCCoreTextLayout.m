@@ -3,7 +3,6 @@
 //  ZCAnimatedLabel
 //
 //  CoreText based layout to separate each ZCTextAttributes
-//  boundingBox values doesn't align with whats drawn on screen yet
 //
 //  Created by Chen Zhang on 3/2/15.
 //  Copyright (c) 2015 somewhere. All rights reserved.

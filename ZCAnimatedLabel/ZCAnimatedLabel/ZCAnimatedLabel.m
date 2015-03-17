@@ -57,6 +57,9 @@
     _useDefaultDrawing = YES;
     _text = @"";
     _font = [UIFont systemFontOfSize:10];
+    
+//    self.backgroundColor = [UIColor yellowColor];
+//    self.drawsCharRect = YES;
 }
 
 

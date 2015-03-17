@@ -22,7 +22,6 @@ typedef NS_ENUM(NSInteger, ZCLayoutGroupType)
 @interface ZCTextAttribute : NSObject
 
 @property (nonatomic, assign) CGRect charRect;
-@property (nonatomic, assign) CGRect boundingBox;
 @property (nonatomic, copy) NSString *text;
 @property (nonatomic, assign) NSRange textRange;
 
