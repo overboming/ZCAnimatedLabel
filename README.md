@@ -1,7 +1,5 @@
 # ZCAnimatedLabel
-UILabel replacement with fine-grain appear/disappear animation
-
-
+UILabel replacement with fine-grain easy to extend appear/disappear animation
 
 
 
@@ -13,6 +11,5 @@ UILabel replacement with fine-grain appear/disappear animation
 
 
 # Thanks to
-
 
 

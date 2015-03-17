@@ -72,7 +72,11 @@
         [self.effectButton setTitle:[actionSheet buttonTitleAtIndex:buttonIndex] forState:UIControlStateNormal];
     }
     
-    [self.label stopAnimation];
+    [self.label setNeedsDisplay];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.label setAttributedString:self.label.attributedString];
+        [self.label startAppearAnimation];
+    });
 }
 
 - (IBAction) breakSegmentChanged: (id) sender
