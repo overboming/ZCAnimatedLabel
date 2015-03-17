@@ -16,6 +16,7 @@
 #import "ZCFlyinLabel.h"
 #import "ZCFocusLabel.h"
 #import "ZCRevealLabel.h"
+#import "ZCSpinLabel.h"
 
 #import <objc/runtime.h>
 
@@ -34,13 +35,14 @@
 
 - (IBAction) changeEffect: (id) sender
 {
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Throw", @"Shapeshift", @"Default", @"Duang", @"Fall", @"Alpha", @"Flyin", @"Blur", @"Reveal", nil];
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Throw", @"Shapeshift", @"Default", @"Duang", @"Fall", @"Alpha", @"Flyin", @"Blur", @"Reveal", @"Spin", nil];
     [sheet showInView:self.view];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     self.label.onlyDrawDirtyArea = YES;
+    self.label.viewBased = NO;
     if (buttonIndex == 0) {
         object_setClass(self.label, [ZCThrownLabel class]);
     }
@@ -68,8 +70,12 @@
     else if (buttonIndex == 8) {
         object_setClass(self.label, [ZCRevealLabel class]);
     }
+    else if (buttonIndex == 9) {
+        object_setClass(self.label, [ZCSpinLabel class]);
+        self.label.viewBased = YES;
+    }
     
-    if (buttonIndex < 9) {
+    if (buttonIndex < 10) {
         [self.effectButton setTitle:[actionSheet buttonTitleAtIndex:buttonIndex] forState:UIControlStateNormal];
     }
     

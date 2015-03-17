@@ -18,6 +18,11 @@ typedef NS_ENUM(NSInteger, ZCLayoutGroupType)
     ZCLayoutGroupLine,
 };
 
+@interface ZCTextBlockView : UIView
+
+@property (nonatomic, strong) NSAttributedString *attributedString;
+
+@end
 
 @interface ZCTextBlock : NSObject
 
@@ -41,6 +46,8 @@ typedef NS_ENUM(NSInteger, ZCLayoutGroupType)
 @property (nonatomic, assign) CGFloat startDelay;
 @property (nonatomic, assign) CGFloat duration;
 
+@property (nonatomic, strong) ZCTextBlockView *textBlockView;
+
 /*
  * place holder
  */
@@ -59,6 +66,7 @@ typedef NS_ENUM(NSInteger, ZCLayoutGroupType)
 - (CGFloat) estimatedHeight;
 
 
+@property (nonatomic, assign) BOOL viewBased;
 @property (nonatomic, strong) NSArray *textAttributes;
 @property (nonatomic, assign) ZCLayoutGroupType groupType;
 

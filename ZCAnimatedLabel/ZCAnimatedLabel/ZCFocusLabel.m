@@ -7,7 +7,6 @@
 //
 
 #import "ZCFocusLabel.h"
-#import "ZCEasingUtil.h"
 #import <Accelerate/Accelerate.h>
 
 

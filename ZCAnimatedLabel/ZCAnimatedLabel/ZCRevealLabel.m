@@ -7,7 +7,6 @@
 //
 
 #import "ZCRevealLabel.h"
-#import "ZCEasingUtil.h"
 
 @implementation ZCRevealLabel
 

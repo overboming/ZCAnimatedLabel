@@ -7,7 +7,6 @@
 //
 
 #import "ZCFlyinLabel.h"
-#import "ZCEasingUtil.h"
 
 
 @implementation ZCFlyinLabel

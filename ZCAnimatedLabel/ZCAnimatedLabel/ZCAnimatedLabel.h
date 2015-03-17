@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CoreText/CoreText.h>
 
+#import "ZCEasingUtil.h"
 #import "ZCCoreTextLayout.h"
 
 
@@ -46,6 +46,13 @@ typedef NS_ENUM(NSInteger, ZCAnimatedLabelAppearDirection)
 @property (nonatomic, copy) NSString *text;
 @property (nonatomic, retain) UIColor *textColor;
 @property (nonatomic, strong) NSAttributedString *attributedString;
+
+/**
+ * If YES, eash text block will be UIView instead of redraw
+ * default to NO
+ */
+@property (nonatomic, assign) BOOL viewBased;
+
 
 @property (nonatomic, assign) BOOL debugRedraw;
 @property (nonatomic, assign) BOOL drawsCharRect;
@@ -85,10 +92,20 @@ typedef NS_ENUM(NSInteger, ZCAnimatedLabelAppearDirection)
 
 - (void) customAttributeInit: (ZCTextBlock *) attribute;
 
+
+/*
+ * custom view manipulation
+ */
+- (void) customViewAppearChangesForAttribute: (ZCTextBlock *) attribute;
+
+- (void) customViewDisappearChangesForAttribute: (ZCTextBlock *) attribute;
+
 /*
  * override this to decide which part of the rect needs redraw
  */
 - (CGRect) customRedrawAreaWithRect: (CGRect) rect attribute: (ZCTextBlock *) attribute;
+
+
 
 
 @end

@@ -7,7 +7,6 @@
 //
 
 #import "ZCTransparencyLabel.h"
-#import "ZCEasingUtil.h"
 
 @implementation ZCTransparencyLabel
 

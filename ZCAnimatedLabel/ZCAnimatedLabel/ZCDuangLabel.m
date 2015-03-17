@@ -7,7 +7,6 @@
 //
 
 #import "ZCDuangLabel.h"
-#import "ZCEasingUtil.h"
 
 @implementation ZCDuangLabel
 

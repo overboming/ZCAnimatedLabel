@@ -12,6 +12,17 @@
 #import <UIKit/UIKit.h>
 #import "ZCCoreTextLayout.h"
 
+@implementation ZCTextBlockView
+
+- (void) drawRect:(CGRect)rect
+{
+    [super drawRect:rect];
+    [self.attributedString drawInRect:rect];
+}
+
+@end
+
+
 @interface ZCTextBlock ()
 
 @property (nonatomic, readwrite) NSAttributedString *derivedAttributedString;
@@ -189,6 +200,13 @@
             attribute.charRect = CGRectMake(startOffset + lineOrigins[i].x, startOffsetY + originDiff, endOffset - startOffset, realHeight);
             [textAttributes addObject:attribute];
             
+            if (self.viewBased) {
+                ZCTextBlockView *textBlockView = [[ZCTextBlockView alloc] init];
+                textBlockView.frame = attribute.charRect;
+                textBlockView.attributedString = subLineString;
+                textBlockView.backgroundColor = [UIColor clearColor];
+                attribute.textBlockView = textBlockView;
+            }
         }];
         
         startOffsetY += lineHeight;

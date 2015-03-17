@@ -19,6 +19,7 @@
 @property (nonatomic, assign) BOOL animatingAppear; //we are during appear stage or not
 @property (nonatomic, strong) ZCCoreTextLayout *layoutTool;
 @property (nonatomic, assign) NSTimeInterval animationStarTime;
+
 @end
 
 @implementation ZCAnimatedLabel
@@ -58,6 +59,7 @@
     _font = [UIFont systemFontOfSize:10];
     
     _drawsCharRect = NO;
+    _viewBased = NO;
 }
 
 
@@ -89,16 +91,26 @@
             if (timePassed > duration && !attribute.ended) {
                 progress = 1;
                 attribute.ended = YES; //ended
-                CGRect dityRect = [self customRedrawAreaWithRect:self.bounds attribute:attribute];
-                [self setNeedsDisplayInRect:dityRect];
+                if (self.viewBased) {
+                    [self updateViewStateWithAttributes:attribute];
+                }
+                else {
+                    CGRect dityRect = [self customRedrawAreaWithRect:self.bounds attribute:attribute];
+                    [self setNeedsDisplayInRect:dityRect];
+                }
             }
             else if (timePassed < 0) {
                 progress = 0;
             }
             else {
                 if (!attribute.ended) {
-                    CGRect dityRect = [self customRedrawAreaWithRect:self.bounds attribute:attribute];
-                    [self setNeedsDisplayInRect:dityRect];
+                    if (self.viewBased) {
+                        [self updateViewStateWithAttributes:attribute];
+                    }
+                    else {
+                        CGRect dityRect = [self customRedrawAreaWithRect:self.bounds attribute:attribute];
+                        [self setNeedsDisplayInRect:dityRect];
+                    }
                 }
                 progress = timePassed / duration;
                 progress = progress > 1 ? 1 : progress;
@@ -114,6 +126,13 @@
     if (!self.attributedString) {
         self.attributedString = [[NSAttributedString alloc] initWithString:self.text attributes:@{NSFontAttributeName : self.font}];
     }
+    self.layoutTool.viewBased = self.viewBased;
+    
+    if (self.viewBased) {
+        for (UIView *view in self.subviews) {
+            [view removeFromSuperview];
+        }
+    }
     
     [self.layoutTool layoutWithAttributedString:self.attributedString constainedToSize:self.frame.size];
     __block CGFloat maxDuration = 0;
@@ -127,14 +146,32 @@
         if (realStartDelay > maxDuration) {
             maxDuration = realStartDelay;
         }
+
+        if (self.viewBased) {
+            [self addSubview:attribute.textBlockView];
+        }
     }];
+    
     self.animationDurationTotal = maxDuration;
 }
 
 - (void) setNeedsDisplayInRect:(CGRect)rect
 {
+    if (self.viewBased) {
+        return;
+    }
     if (self.onlyDrawDirtyArea) {
         [super setNeedsDisplayInRect:rect];
+    }
+    else {
+        [super setNeedsDisplay];
+    }
+}
+
+- (void) setNeedsDisplay
+{
+    if (self.viewBased) {
+        return;
     }
     else {
         [super setNeedsDisplay];
@@ -144,6 +181,9 @@
 - (void) setAttributedString:(NSAttributedString *)attributedString
 {
     _attributedString = attributedString;
+    if ([attributedString length] < 1) {
+        return;
+    }
     NSDictionary *attributes = [attributedString attributesAtIndex:0 effectiveRange:NULL];
     UIFont *font = [attributes objectForKey:NSFontAttributeName];
     UIColor *color = [attributes objectForKey:NSForegroundColorAttributeName];
@@ -207,11 +247,30 @@
     self.animationStarTime = 0;
 }
 
+- (void) stopAnimation
+{
+    self.animationTime = 0;
+    self.displayLink.paused = YES;
+}
+
+- (void) setDrawsCharRect:(BOOL)drawsCharRect
+{
+    _drawsCharRect = drawsCharRect;
+    [self setNeedsDisplay];
+}
+
+
+#pragma mark Custom Drawing
+- (void) customAttributeInit: (ZCTextBlock *) attribute
+{
+    //override this in subclass
+}
+
+
 - (CGRect) customRedrawAreaWithRect: (CGRect) rect attribute: (ZCTextBlock *) attribute
 {
     return  attribute.charRect;
 }
-
 
 /**
  *  Draw characters of different font size instead of using scale
@@ -259,22 +318,10 @@
     [self customAppearDrawingForRect:rect attribute:attribute];
 }
 
-- (void) stopAnimation
-{
-    self.animationTime = 0;
-    self.displayLink.paused = YES;
-}
-
-- (void) setDrawsCharRect:(BOOL)drawsCharRect
-{
-    _drawsCharRect = drawsCharRect;
-    [self setNeedsDisplay];
-}
-
 - (void) drawRect:(CGRect)rect
 {
     [super drawRect:rect];
-
+    
     if (self.debugRedraw) {
         CGContextRef context = UIGraphicsGetCurrentContext();
         CGFloat hue = ( arc4random() % 256 / 256.0 );
@@ -283,6 +330,10 @@
         UIColor *color = [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:1];
         CGContextSetFillColorWithColor(context, color.CGColor);
         CGContextFillRect(context, rect);        
+    }
+    
+    if (self.viewBased) {
+        return;
     }
     
     for (ZCTextBlock *attribute in self.layoutTool.textAttributes) {
@@ -303,10 +354,10 @@
             }            
         }
         else {
-            if (self.animatingAppear && [self respondsToSelector:@selector(customAppearDrawingForRect:attribute:)]) {
+            if (self.animatingAppear) {
                 [self customAppearDrawingForRect:rect attribute:attribute];
             }
-            if (!self.animatingAppear && [self respondsToSelector:@selector(customDisappearDrawingForRect:attribute:)]) {
+            if (!self.animatingAppear) {
                 [self customDisappearDrawingForRect:rect attribute:attribute];
             }
         }
@@ -317,17 +368,38 @@
     }
 }
 
-- (NSAttributedString *) attributedString: (NSAttributedString *) attributedString withOverridenAttributes: (NSDictionary *) attributes
+
+#pragma mark Custom View Attribute Changes
+
+- (void) updateViewStateWithAttributes: (ZCTextBlock *) attribute
 {
-    NSMutableAttributedString *mutableCopy = [attributedString mutableCopy];
-    [mutableCopy addAttributes:attributes range:NSMakeRange(0, attributedString.length)];
-    return mutableCopy;
+    if (self.animatingAppear) {
+        [self customViewAppearChangesForAttribute:attribute];
+    }
+    if (!self.animatingAppear) {
+        [self customViewAppearChangesForAttribute:attribute];
+    }
 }
 
-
-- (void) customAttributeInit: (ZCTextBlock *) attribute
+- (void) customViewAppearChangesForAttribute: (ZCTextBlock *) attribute
 {
-    //override this in subclass
+    
+}
+
+- (void) customViewDisappearChangesForAttribute: (ZCTextBlock *) attribute
+{
+    
+}
+
+- (void) setViewBased:(BOOL)viewBased
+{
+    _viewBased = viewBased;
+    [self setNeedsDisplay]; //blank draw rect
+    if (!viewBased) {
+        for (UIView *view in self.subviews) {
+            [view removeFromSuperview];
+        }
+    }
 }
 
 @end

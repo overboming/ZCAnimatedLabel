@@ -7,7 +7,6 @@
 //
 
 #import "ZCShapeshiftLabel.h"
-#import "ZCEasingUtil.h"
 
 @implementation ZCShapeshiftLabel
 

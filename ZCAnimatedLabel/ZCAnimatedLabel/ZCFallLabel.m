@@ -9,7 +9,6 @@
 #import "ZCFallLabel.h"
 
 #import "ZCDuangLabel.h"
-#import "ZCEasingUtil.h"
 
 @implementation ZCFallLabel
 
