@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 alipay. All rights reserved.
 //
 //  3d transform on image doesn't seem practical in real time on images better than a dime
-//  use viewBased implementation isntead
+//  use layerBased implementation isntead
 //
 
 #import "ZCSpinLabel.h"
@@ -17,17 +17,18 @@
 {
     if (self = [super initWithFrame:frame]) {
         self.onlyDrawDirtyArea = NO;
-        self.viewBased = YES;
+        self.layerBased = YES;
     }
     return self;
 }
 
 - (void) customAttributeInit:(ZCTextBlock *)attribute
 {
-    if (self.viewBased) {
-        ZCTextBlockView *view = attribute.textBlockView;
-        view.backgroundColor = [UIColor clearColor];
-        view.layer.transform = CATransform3DMakeRotation((M_PI / 2), 0, 1, 0);
+    if (self.layerBased) {
+        ZCTextBlockLayer *layer = attribute.textBlockLayer;
+        layer.backgroundColor = [UIColor clearColor].CGColor;
+        layer.transform = CATransform3DMakeRotation((M_PI / 2), 0, 1, 0);
+        [layer setNeedsDisplay];
     }
     else {
         UIGraphicsBeginImageContextWithOptions(attribute.charRect.size, NO, [UIScreen mainScreen].scale);
@@ -47,7 +48,7 @@
         return;
     }
     CGFloat realProgress = [ZCEasingUtil easeOutWithStartValue:0 endValue:1 time:attribute.progress];
-    attribute.textBlockView.layer.transform = CATransform3DMakeRotation(M_PI / 2 * (1 - realProgress), 0, 1, 0);
+    attribute.textBlockLayer.transform = CATransform3DMakeRotation(M_PI / 2 * (1 - realProgress), 0, 1, 0);
 }
 
 

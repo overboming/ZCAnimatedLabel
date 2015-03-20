@@ -59,7 +59,7 @@
     _font = [UIFont systemFontOfSize:10];
     
     _drawsCharRect = NO;
-    _viewBased = NO;
+    _layerBased = NO;
 }
 
 
@@ -91,7 +91,7 @@
             if (timePassed > duration && !attribute.ended) {
                 progress = 1;
                 attribute.ended = YES; //ended
-                if (self.viewBased) {
+                if (self.layerBased) {
                     [self updateViewStateWithAttributes:attribute];
                 }
                 else {
@@ -104,7 +104,7 @@
             }
             else {
                 if (!attribute.ended) {
-                    if (self.viewBased) {
+                    if (self.layerBased) {
                         [self updateViewStateWithAttributes:attribute];
                     }
                     else {
@@ -120,18 +120,28 @@
     }
 }
 
+- (void) _removeAllTextLayers
+{
+    NSMutableArray *toDelete = [NSMutableArray arrayWithCapacity:1];
+    for (CALayer *layer in self.layer.sublayers) {
+        [toDelete addObject:layer];
+    }
+    
+    for (CALayer *layer in toDelete) {
+        [layer removeFromSuperlayer];
+    }
+}
+
 - (void) _layoutForChangedString
 {
     [self.layoutTool cleanLayout];
     if (!self.attributedString) {
         self.attributedString = [[NSAttributedString alloc] initWithString:self.text attributes:@{NSFontAttributeName : self.font}];
     }
-    self.layoutTool.viewBased = self.viewBased;
+    self.layoutTool.layerBased = self.layerBased;
     
-    if (self.viewBased) {
-        for (UIView *view in self.subviews) {
-            [view removeFromSuperview];
-        }
+    if (self.layerBased) {
+        [self _removeAllTextLayers];
     }
     
     [self.layoutTool layoutWithAttributedString:self.attributedString constainedToSize:self.frame.size];
@@ -147,8 +157,9 @@
             maxDuration = realStartDelay;
         }
 
-        if (self.viewBased) {
-            [self addSubview:attribute.textBlockView];
+        if (self.layerBased) {
+//            [self addSubview:attribute.textBlockView];
+            [self.layer addSublayer:attribute.textBlockLayer];
         }
     }];
     
@@ -157,7 +168,7 @@
 
 - (void) setNeedsDisplayInRect:(CGRect)rect
 {
-    if (self.viewBased) {
+    if (self.layerBased) {
         return;
     }
     if (self.onlyDrawDirtyArea) {
@@ -170,7 +181,7 @@
 
 - (void) setNeedsDisplay
 {
-    if (self.viewBased) {
+    if (self.layerBased) {
         return;
     }
     else {
@@ -332,7 +343,7 @@
         CGContextFillRect(context, rect);        
     }
     
-    if (self.viewBased) {
+    if (self.layerBased) {
         return;
     }
     
@@ -391,14 +402,12 @@
     
 }
 
-- (void) setViewBased:(BOOL)viewBased
+- (void) setlayerBased:(BOOL)layerBased
 {
-    _viewBased = viewBased;
+    _layerBased = layerBased;
     [self setNeedsDisplay]; //blank draw rect
-    if (!viewBased) {
-        for (UIView *view in self.subviews) {
-            [view removeFromSuperview];
-        }
+    if (!layerBased) {
+        [self _removeAllTextLayers];
     }
 }
 

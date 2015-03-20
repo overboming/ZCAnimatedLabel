@@ -42,7 +42,7 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     self.label.onlyDrawDirtyArea = YES;
-    self.label.viewBased = NO;
+    self.label.layerBased = NO;
     if (buttonIndex == 0) {
         object_setClass(self.label, [ZCThrownLabel class]);
     }
@@ -72,7 +72,7 @@
     }
     else if (buttonIndex == 9) {
         object_setClass(self.label, [ZCSpinLabel class]);
-        self.label.viewBased = YES;
+        self.label.layerBased = YES;
     }
     
     if (buttonIndex < 10) {

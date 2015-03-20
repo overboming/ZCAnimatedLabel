@@ -51,7 +51,7 @@ typedef NS_ENUM(NSInteger, ZCAnimatedLabelAppearDirection)
  * If YES, eash text block will be UIView instead of redraw
  * default to NO
  */
-@property (nonatomic, assign) BOOL viewBased;
+@property (nonatomic, assign) BOOL layerBased;
 
 
 @property (nonatomic, assign) BOOL debugRedraw;

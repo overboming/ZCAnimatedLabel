@@ -12,15 +12,25 @@
 #import <UIKit/UIKit.h>
 #import "ZCCoreTextLayout.h"
 
-@implementation ZCTextBlockView
 
-- (void) drawRect:(CGRect)rect
+@implementation ZCTextBlockLayer
+
+- (instancetype) init
 {
-    [super drawRect:rect];
-    [self.attributedString drawInRect:rect];
+    if (self = [super init]) {
+        self.contentsScale = [UIScreen mainScreen].scale;
+    }
+    return self;
 }
 
+- (void) drawInContext:(CGContextRef)ctx
+{
+    UIGraphicsPushContext(ctx);
+    [self.attributedString drawInRect:self.bounds];
+    UIGraphicsPopContext();
+}
 @end
+
 
 
 @interface ZCTextBlock ()
@@ -200,12 +210,12 @@
             attribute.charRect = CGRectMake(startOffset + lineOrigins[i].x, startOffsetY + originDiff, endOffset - startOffset, realHeight);
             [textAttributes addObject:attribute];
             
-            if (self.viewBased) {
-                ZCTextBlockView *textBlockView = [[ZCTextBlockView alloc] init];
-                textBlockView.frame = attribute.charRect;
-                textBlockView.attributedString = subLineString;
-                textBlockView.backgroundColor = [UIColor clearColor];
-                attribute.textBlockView = textBlockView;
+            if (self.layerBased) {                
+                ZCTextBlockLayer *textBlockLayer = [[ZCTextBlockLayer alloc] init];
+                textBlockLayer.frame = attribute.charRect;
+                textBlockLayer.attributedString = subLineString;
+                textBlockLayer.backgroundColor = [UIColor clearColor].CGColor;
+                attribute.textBlockLayer = textBlockLayer;
             }
         }];
         
