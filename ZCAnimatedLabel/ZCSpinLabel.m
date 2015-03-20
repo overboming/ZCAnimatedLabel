@@ -8,6 +8,8 @@
 //  3d transform on image doesn't seem practical in real time on images better than a dime
 //  use layerBased implementation isntead
 //
+//  duration should be longer to see the full rotation
+//
 
 #import "ZCSpinLabel.h"
 
@@ -24,21 +26,10 @@
 
 - (void) customAttributeInit:(ZCTextBlock *)attribute
 {
-    if (self.layerBased) {
-        ZCTextBlockLayer *layer = attribute.textBlockLayer;
-        layer.backgroundColor = [UIColor clearColor].CGColor;
-        layer.transform = CATransform3DMakeRotation((M_PI / 2), 0, 1, 0);
-        [layer setNeedsDisplay];
-    }
-    else {
-        UIGraphicsBeginImageContextWithOptions(attribute.charRect.size, NO, [UIScreen mainScreen].scale);
-        UIColor *color = [attribute.derivedTextColor colorWithAlphaComponent:1];
-        attribute.textColor = color;
-        [attribute.derivedAttributedString drawInRect:CGRectMake(0, 0, attribute.charRect.size.width, attribute.charRect.size.height)];
-        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        attribute.customValue = image;
-    }
+    ZCTextBlockLayer *layer = attribute.textBlockLayer;
+    layer.backgroundColor = [UIColor clearColor].CGColor;
+    layer.transform = CATransform3DMakeRotation((M_PI / 2), 0, 1, 0);
+    [layer setNeedsDisplay];
 }
 
 
@@ -47,8 +38,8 @@
     if (attribute.progress <= 0) {
         return;
     }
-    CGFloat realProgress = [ZCEasingUtil easeOutWithStartValue:0 endValue:1 time:attribute.progress];
-    attribute.textBlockLayer.transform = CATransform3DMakeRotation(M_PI / 2 * (1 - realProgress), 0, 1, 0);
+    CGFloat realProgress = [ZCEasingUtil bounceWithStiffness:ZCAnimatedLabelStiffnessMedium numberOfBounces:1 time:attribute.progress shake:NO shouldOvershoot:YES];
+    attribute.textBlockLayer.transform = CATransform3DMakeRotation(2 * M_PI * (1 - realProgress), 0, 1, 0);
 }
 
 
