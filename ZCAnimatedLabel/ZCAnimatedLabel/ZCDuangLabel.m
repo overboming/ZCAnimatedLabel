@@ -18,18 +18,18 @@
     return self;
 }
 
-- (void) customAppearDrawingForRect: (CGRect) rect attribute: (ZCTextBlock *) attribute
+- (void) customAppearDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock
 {
-    if (attribute.progress <= 0) {
+    if (textBlock.progress <= 0) {
         return;
     }
-    CGFloat realProgress = [ZCEasingUtil bounceWithStiffness:ZCAnimatedLabelStiffnessMedium numberOfBounces:3 time:attribute.progress shake:YES shouldOvershoot:YES];
+    CGFloat realProgress = [ZCEasingUtil bounceWithStiffness:ZCAnimatedLabelStiffnessMedium numberOfBounces:3 time:textBlock.progress shake:YES shouldOvershoot:YES];
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
-    CGContextTranslateCTM(context, CGRectGetMidX(attribute.charRect), CGRectGetMaxY(attribute.charRect));
+    CGContextTranslateCTM(context, CGRectGetMidX(textBlock.charRect), CGRectGetMaxY(textBlock.charRect));
     CGContextScaleCTM(context, 1, realProgress);
-    CGRect newRect = CGRectMake(-attribute.charRect.size.width / 2, -attribute.charRect.size.height, attribute.charRect.size.width, attribute.charRect.size.height);
-    [attribute.derivedAttributedString drawInRect:newRect];
+    CGRect newRect = CGRectMake(-textBlock.charRect.size.width / 2, -textBlock.charRect.size.height, textBlock.charRect.size.width, textBlock.charRect.size.height);
+    [textBlock.derivedAttributedString drawInRect:newRect];
     CGContextRestoreGState(context);
 }
 

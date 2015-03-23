@@ -20,47 +20,47 @@
     return self;
 }
 
-- (void) customAttributeInit: (ZCTextBlock *) attribute
+- (void) customTextBlockInit: (ZCTextBlock *) textBlock
 {
-    attribute.customValue = @((int)(arc4random() % 7) - 3);
+    textBlock.customValue = @((int)(arc4random() % 7) - 3);
     
 }
 
-- (CGRect) customRedrawAreaWithRect:(CGRect)rect attribute:(ZCTextBlock *)attribute
+- (CGRect) customRedrawAreaWithRect:(CGRect)rect textBlock:(ZCTextBlock *) textBlock
 {
-    CGRect charRect = attribute.charRect;
-    return CGRectMake(charRect.origin.x - attribute.derivedFont.pointSize / 2, charRect.origin.y - attribute.derivedFont.pointSize * 5, charRect.size.width + attribute.derivedFont.pointSize, charRect.size.height + attribute.derivedFont.pointSize * 5);
+    CGRect charRect = textBlock.charRect;
+    return CGRectMake(charRect.origin.x - textBlock.derivedFont.pointSize / 2, charRect.origin.y - textBlock.derivedFont.pointSize * 5, charRect.size.width + textBlock.derivedFont.pointSize, charRect.size.height + textBlock.derivedFont.pointSize * 5);
 }
 
-- (void) customAppearDrawingForRect: (CGRect) rect attribute: (ZCTextBlock *) attribute
+- (void) customAppearDrawingForRect: (CGRect) rect textBlock:(ZCTextBlock *) textBlock
 {
-    CGFloat height = [ZCEasingUtil bounceWithStiffness:0.01 numberOfBounces:1 time:attribute.progress shake:NO shouldOvershoot:NO startValue:CGRectGetMaxY(attribute.charRect) - attribute.derivedFont.pointSize * 5  endValue:CGRectGetMaxY(attribute.charRect)];
+    CGFloat height = [ZCEasingUtil bounceWithStiffness:0.01 numberOfBounces:1 time:textBlock.progress shake:NO shouldOvershoot:NO startValue:CGRectGetMaxY(textBlock.charRect) - textBlock.derivedFont.pointSize * 5  endValue:CGRectGetMaxY(textBlock.charRect)];
     
-    CGFloat alpha = attribute.progress < 0.2 ? [ZCEasingUtil easeInWithStartValue:0 endValue:1 time:attribute.progress * 5] : 1;
+    CGFloat alpha = textBlock.progress < 0.2 ? [ZCEasingUtil easeInWithStartValue:0 endValue:1 time:textBlock.progress * 5] : 1;
     //skip very low alpha
-    if (alpha < 0.01 || attribute.progress <= 0) {
+    if (alpha < 0.01 || textBlock.progress <= 0) {
         return;
     }
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
-    CGContextTranslateCTM(context, CGRectGetMidX(attribute.charRect), height);
+    CGContextTranslateCTM(context, CGRectGetMidX(textBlock.charRect), height);
     CGFloat rotateValue = 0;
     CGFloat segment = 0.2;
-    CGFloat maxRotate = [attribute.customValue integerValue] * M_PI / 32;
-    if (attribute.progress <= segment) {
+    CGFloat maxRotate = [textBlock.customValue integerValue] * M_PI / 32;
+    if (textBlock.progress <= segment) {
         rotateValue = maxRotate;
     }
     else {
-        CGFloat newTime = (attribute.progress - segment)/(1 - segment);
+        CGFloat newTime = (textBlock.progress - segment)/(1 - segment);
         rotateValue = [ZCEasingUtil bounceWithStiffness:0.01 numberOfBounces:2 time:newTime shake:NO shouldOvershoot:YES startValue:maxRotate endValue:0];
     }
     CGContextRotateCTM(context, rotateValue);
 
-    UIColor *color = [attribute.derivedTextColor colorWithAlphaComponent:alpha];
-    CGRect newRect = CGRectMake(-attribute.charRect.size.width / 2, -attribute.charRect.size.height, attribute.charRect.size.width, attribute.charRect.size.height);
-    attribute.textColor = color; //override color
-    [attribute.derivedAttributedString drawInRect:newRect];
+    UIColor *color = [textBlock.derivedTextColor colorWithAlphaComponent:alpha];
+    CGRect newRect = CGRectMake(-textBlock.charRect.size.width / 2, -textBlock.charRect.size.height, textBlock.charRect.size.width, textBlock.charRect.size.height);
+    textBlock.textColor = color; //override color
+    [textBlock.derivedAttributedString drawInRect:newRect];
     CGContextRestoreGState(context);
 }
 

@@ -26,7 +26,7 @@
 
 - (instancetype) initWithCoder:(NSCoder *)aDecoder
 {
-    if ([super initWithCoder:aDecoder]) {
+    if (self = [super initWithCoder:aDecoder]) {
         [self commonInit];
     }
     return self;
@@ -34,7 +34,7 @@
 
 - (instancetype) initWithFrame:(CGRect)frame
 {
-    if ([super initWithFrame:frame]) {
+    if (self = [super initWithFrame:frame]) {
         [self commonInit];
     }
     return self;
@@ -58,7 +58,7 @@
     _text = @"";
     _font = [UIFont systemFontOfSize:10];
     
-    _drawsCharRect = NO;
+    _debugTextBlockBounds = NO;
     _layerBased = NO;
 }
 
@@ -80,22 +80,22 @@
     }
     else { //update text attributeds array
         
-        [self.layoutTool.textAttributes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            ZCTextBlock *attribute = self.layoutTool.textAttributes[idx];
-            NSUInteger sequence = self.animatingAppear ? idx : (self.layoutTool.textAttributes.count - idx - 1);
+        [self.layoutTool.textBlocks enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            ZCTextBlock *textBlock = self.layoutTool.textBlocks[idx];
+            NSUInteger sequence = self.animatingAppear ? idx : (self.layoutTool.textBlocks.count - idx - 1);
             //udpate attribute according to progress
             CGFloat progress = 0;
-            CGFloat startDelay = attribute.startDelay > 0 ? attribute.startDelay : sequence * self.animationDelay;
+            CGFloat startDelay = textBlock.startDelay > 0 ? textBlock.startDelay : sequence * self.animationDelay;
             NSTimeInterval timePassed = self.animationTime - startDelay;
-            CGFloat duration = attribute.duration > 0 ? attribute.duration : self.animationDuration;
-            if (timePassed > duration && !attribute.ended) {
+            CGFloat duration = textBlock.duration > 0 ? textBlock.duration : self.animationDuration;
+            if (timePassed > duration && !textBlock.ended) {
                 progress = 1;
-                attribute.ended = YES; //ended
+                textBlock.ended = YES; //ended
                 if (self.layerBased) {
-                    [self updateViewStateWithAttributes:attribute];
+                    [self updateViewStateWithAttributes:textBlock];
                 }
                 else {
-                    CGRect dityRect = [self customRedrawAreaWithRect:self.bounds attribute:attribute];
+                    CGRect dityRect = [self customRedrawAreaWithRect:self.bounds textBlock:textBlock];
                     [self setNeedsDisplayInRect:dityRect];
                 }
             }
@@ -103,19 +103,19 @@
                 progress = 0;
             }
             else {
-                if (!attribute.ended) {
+                if (!textBlock.ended) {
                     if (self.layerBased) {
-                        [self updateViewStateWithAttributes:attribute];
+                        [self updateViewStateWithAttributes:textBlock];
                     }
                     else {
-                        CGRect dityRect = [self customRedrawAreaWithRect:self.bounds attribute:attribute];
+                        CGRect dityRect = [self customRedrawAreaWithRect:self.bounds textBlock:textBlock];
                         [self setNeedsDisplayInRect:dityRect];
                     }
                 }
                 progress = timePassed / duration;
                 progress = progress > 1 ? 1 : progress;
             }
-            attribute.progress = progress;
+            textBlock.progress = progress;
         }];
     }
 }
@@ -132,6 +132,14 @@
     }
 }
 
+#pragma mark layout related
+
+- (void) sizeToFit
+{
+    self.frame = CGRectMake(CGRectGetMinX(self.frame), CGRectGetMinY(self.frame), CGRectGetWidth(self.frame), self.layoutTool.estimatedHeight);
+}
+
+
 - (void) _layoutForChangedString
 {
     [self.layoutTool cleanLayout];
@@ -146,25 +154,26 @@
     
     [self.layoutTool layoutWithAttributedString:self.attributedString constainedToSize:self.frame.size];
     __block CGFloat maxDuration = 0;
-    [self.layoutTool.textAttributes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        ZCTextBlock *attribute = obj;
-        [self customAttributeInit:attribute];
+    [self.layoutTool.textBlocks enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        ZCTextBlock *textBlock = obj;
+        [self customTextBlockInit:textBlock];
         
-        CGFloat duration = attribute.duration > 0 ? attribute.duration : self.animationDuration;
-        CGFloat startDelay = attribute.startDelay > 0 ? attribute.startDelay : idx * self.animationDelay;
+        CGFloat duration = textBlock.duration > 0 ? textBlock.duration : self.animationDuration;
+        CGFloat startDelay = textBlock.startDelay > 0 ? textBlock.startDelay : idx * self.animationDelay;
         CGFloat realStartDelay = startDelay + duration;
         if (realStartDelay > maxDuration) {
             maxDuration = realStartDelay;
         }
 
         if (self.layerBased) {
-//            [self addSubview:attribute.textBlockView];
-            [self.layer addSublayer:attribute.textBlockLayer];
+            [self.layer addSublayer:textBlock.textBlockLayer];
         }
     }];
     
     self.animationDurationTotal = maxDuration;
 }
+
+#pragma Label related
 
 - (void) setNeedsDisplayInRect:(CGRect)rect
 {
@@ -234,6 +243,17 @@
     [self setNeedsDisplay];
 }
 
+
+- (void) startAppearAnimation
+{
+    self.animatingAppear = YES;
+    self.animationTime = 0;
+    self.useDefaultDrawing = NO;
+    self.displayLink.paused = NO;
+    self.animationStarTime = 0;
+    [self setNeedsDisplay];
+}
+
 - (void) startDisappearAnimation
 {
     self.animatingAppear = NO;
@@ -244,19 +264,6 @@
     [self setNeedsDisplay]; //draw all rects
 }
 
-- (void) sizeToFit
-{
-    self.frame = CGRectMake(CGRectGetMinX(self.frame), CGRectGetMinY(self.frame), CGRectGetWidth(self.frame), self.layoutTool.estimatedHeight);
-}
-
-- (void) startAppearAnimation
-{
-    self.animatingAppear = YES;
-    self.animationTime = 0;
-    self.useDefaultDrawing = NO;
-    self.displayLink.paused = NO;
-    self.animationStarTime = 0;
-}
 
 - (void) stopAnimation
 {
@@ -264,75 +271,85 @@
     self.displayLink.paused = YES;
 }
 
-- (void) setDrawsCharRect:(BOOL)drawsCharRect
+- (void) setDebugTextBlockBounds:(BOOL)drawsCharRect
 {
-    _drawsCharRect = drawsCharRect;
+    _debugTextBlockBounds = drawsCharRect;
     [self setNeedsDisplay];
+}
+
+- (void) setlayerBased:(BOOL)layerBased
+{
+    _layerBased = layerBased;
+    [self setNeedsDisplay]; //blank draw rect
+    if (!layerBased) {
+        [self _removeAllTextLayers];
+    }
 }
 
 
 #pragma mark Custom Drawing
-- (void) customAttributeInit: (ZCTextBlock *) attribute
+
+- (void) customTextBlockInit: (ZCTextBlock *) textBlock
 {
-    //override this in subclass
+    //override this in subclass if necessary
 }
 
 
-- (CGRect) customRedrawAreaWithRect: (CGRect) rect attribute: (ZCTextBlock *) attribute
+- (CGRect) customRedrawAreaWithRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock
 {
-    return  attribute.charRect;
+    return  textBlock.charRect;
 }
 
-/**
- *  Draw characters of different font size instead of using scale
- *  This might not be optimal but servies as an alternative.
- */
-- (void) customAppearDrawingForRect:(CGRect)rect attribute:(ZCTextBlock *)attribute
+- (void) customAppearDrawingForRect:(CGRect)rect textBlock: (ZCTextBlock *)textBlock
 {
-    CGFloat realProgress = [ZCEasingUtil bounceWithStiffness:0.01 numberOfBounces:1 time:attribute.progress shake:NO shouldOvershoot:NO];
-    if (attribute.progress <= 0.0f) {
+    CGFloat realProgress = [ZCEasingUtil bounceWithStiffness:0.01 numberOfBounces:1 time:textBlock.progress shake:NO shouldOvershoot:NO];
+    if (textBlock.progress <= 0.0f) {
         return; 
     }
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
     
     if (self.appearDirection == ZCAnimatedLabelAppearDirectionFromCenter) {
-        CGContextTranslateCTM(context, CGRectGetMidX(attribute.charRect), CGRectGetMidY(attribute.charRect));
+        CGContextTranslateCTM(context, CGRectGetMidX(textBlock.charRect), CGRectGetMidY(textBlock.charRect));
         CGContextScaleCTM(context, realProgress, realProgress);
-        CGRect rotatedRect = CGRectMake(-attribute.charRect.size.width / 2, - attribute.charRect.size.height / 2, attribute.charRect.size.width, attribute.charRect.size.height);
-        [attribute.derivedAttributedString drawInRect:rotatedRect];
+        CGRect rotatedRect = CGRectMake(-textBlock.charRect.size.width / 2, - textBlock.charRect.size.height / 2, textBlock.charRect.size.width, textBlock.charRect.size.height);
+        [textBlock.derivedAttributedString drawInRect:rotatedRect];
     }
     else if (self.appearDirection == ZCAnimatedLabelAppearDirectionFromTop) {
-        CGContextTranslateCTM(context, CGRectGetMidX(attribute.charRect), CGRectGetMinY(attribute.charRect));
+        CGContextTranslateCTM(context, CGRectGetMidX(textBlock.charRect), CGRectGetMinY(textBlock.charRect));
         CGContextScaleCTM(context, realProgress, realProgress);
-        CGRect rotatedRect = CGRectMake(-attribute.charRect.size.width / 2,0, attribute.charRect.size.width, attribute.charRect.size.height);
-        [attribute.derivedAttributedString drawInRect:rotatedRect];
+        CGRect rotatedRect = CGRectMake(-textBlock.charRect.size.width / 2,0, textBlock.charRect.size.width, textBlock.charRect.size.height);
+        [textBlock.derivedAttributedString drawInRect:rotatedRect];
     }
     else if (self.appearDirection == ZCAnimatedLabelAppearDirectionFromTopLeft) {
-        CGContextTranslateCTM(context, CGRectGetMinX(attribute.charRect), CGRectGetMinY(attribute.charRect));
+        CGContextTranslateCTM(context, CGRectGetMinX(textBlock.charRect), CGRectGetMinY(textBlock.charRect));
         CGContextScaleCTM(context, realProgress, realProgress);
-        CGRect rotatedRect = CGRectMake(0, 0, attribute.charRect.size.width, attribute.charRect.size.height);
-        [attribute.derivedAttributedString drawInRect:rotatedRect];
+        CGRect rotatedRect = CGRectMake(0, 0, textBlock.charRect.size.width, textBlock.charRect.size.height);
+        [textBlock.derivedAttributedString drawInRect:rotatedRect];
     }
     else if (self.appearDirection == ZCAnimatedLabelAppearDirectionFromBottom) {
-        CGContextTranslateCTM(context, CGRectGetMidX(attribute.charRect), CGRectGetMaxY(attribute.charRect));
+        CGContextTranslateCTM(context, CGRectGetMidX(textBlock.charRect), CGRectGetMaxY(textBlock.charRect));
         CGContextScaleCTM(context, realProgress, realProgress);
-        CGRect rotatedRect = CGRectMake(-attribute.charRect.size.width / 2, - attribute.charRect.size.height, attribute.charRect.size.width, attribute.charRect.size.height);
-        [attribute.derivedAttributedString drawInRect:rotatedRect];
+        CGRect rotatedRect = CGRectMake(-textBlock.charRect.size.width / 2, - textBlock.charRect.size.height, textBlock.charRect.size.width, textBlock.charRect.size.height);
+        [textBlock.derivedAttributedString drawInRect:rotatedRect];
     }
     CGContextRestoreGState(context);
 }
 
-- (void) customDisappearDrawingForRect:(CGRect)rect attribute:(ZCTextBlock *)attribute
+- (void) customDisappearDrawingForRect:(CGRect)rect textBlock:(ZCTextBlock *)textBlock
 {
-    attribute.progress = 1 - attribute.progress; //default implementation, might not looks right
-    [self customAppearDrawingForRect:rect attribute:attribute];
+    textBlock.progress = 1 - textBlock.progress; //default implementation, might not looks right
+    [self customAppearDrawingForRect:rect textBlock:textBlock];
 }
 
 - (void) drawRect:(CGRect)rect
 {
     [super drawRect:rect];
     
+    if (self.layerBased) {
+        return;
+    }
+
     if (self.debugRedraw) {
         CGContextRef context = UIGraphicsGetCurrentContext();
         CGFloat hue = ( arc4random() % 256 / 256.0 );
@@ -343,33 +360,29 @@
         CGContextFillRect(context, rect);        
     }
     
-    if (self.layerBased) {
-        return;
-    }
-    
-    for (ZCTextBlock *attribute in self.layoutTool.textAttributes) {
-        if (!CGRectIntersectsRect(rect, attribute.charRect)) {
+    for (ZCTextBlock *textBlock in self.layoutTool.textBlocks) {
+        if (!CGRectIntersectsRect(rect, textBlock.charRect)) {
             continue; //skip this text redraw
         }
 
-        if (self.drawsCharRect) {
+        if (self.debugTextBlockBounds) {
             CGContextRef context = UIGraphicsGetCurrentContext();
             CGContextSetStrokeColorWithColor(context, [UIColor redColor].CGColor);
-            CGContextAddRect(context, attribute.charRect);
+            CGContextAddRect(context, textBlock.charRect);
             CGContextStrokePath(context);
         }
         
         if (self.useDefaultDrawing) {
             if (self.animatingAppear) {
-                [attribute.derivedAttributedString drawInRect:attribute.charRect];
+                [textBlock.derivedAttributedString drawInRect:textBlock.charRect];
             }            
         }
         else {
             if (self.animatingAppear) {
-                [self customAppearDrawingForRect:rect attribute:attribute];
+                [self customAppearDrawingForRect:rect textBlock:textBlock];
             }
             if (!self.animatingAppear) {
-                [self customDisappearDrawingForRect:rect attribute:attribute];
+                [self customDisappearDrawingForRect:rect textBlock:textBlock];
             }
         }
     }
@@ -382,33 +395,25 @@
 
 #pragma mark Custom View Attribute Changes
 
-- (void) updateViewStateWithAttributes: (ZCTextBlock *) attribute
+- (void) updateViewStateWithAttributes: (ZCTextBlock *) textBlock
 {
     if (self.animatingAppear) {
-        [self customViewAppearChangesForAttribute:attribute];
+        [self customViewAppearChangesForTextBlock:textBlock];
     }
     if (!self.animatingAppear) {
-        [self customViewAppearChangesForAttribute:attribute];
+        [self customViewAppearChangesForTextBlock:textBlock];
     }
 }
 
-- (void) customViewAppearChangesForAttribute: (ZCTextBlock *) attribute
+- (void) customViewAppearChangesForTextBlock: (ZCTextBlock *) textBlock
 {
     
 }
 
-- (void) customViewDisappearChangesForAttribute: (ZCTextBlock *) attribute
+- (void) customViewDisappearChangesForTextBlock: (ZCTextBlock *) textBlock
 {
     
 }
 
-- (void) setlayerBased:(BOOL)layerBased
-{
-    _layerBased = layerBased;
-    [self setNeedsDisplay]; //blank draw rect
-    if (!layerBased) {
-        [self _removeAllTextLayers];
-    }
-}
 
 @end

@@ -32,11 +32,13 @@ typedef NS_ENUM(NSInteger, ZCLayoutGroupType)
 @property (nonatomic, copy) NSString *text;
 @property (nonatomic, assign) NSRange textRange;
 
-/*if wanted to override default value from attributedString*/
+/** 
+ * if wanted to override default value from attributedString
+ s*/
 @property (nonatomic, strong) UIFont *font;
 @property (nonatomic, strong) UIColor *textColor;
 
-/*
+/**
  * attributes derived from current draw state, used to draw
  */
 @property (nonatomic, readonly) UIColor *derivedTextColor;
@@ -50,8 +52,8 @@ typedef NS_ENUM(NSInteger, ZCLayoutGroupType)
 
 @property (nonatomic, strong) ZCTextBlockLayer *textBlockLayer;
 
-/*
- * place holder
+/**
+ * place holder for customValue
  */
 @property (nonatomic, strong) id customValue;
 
@@ -69,7 +71,7 @@ typedef NS_ENUM(NSInteger, ZCLayoutGroupType)
 
 
 @property (nonatomic, assign) BOOL layerBased;
-@property (nonatomic, strong) NSArray *textAttributes;
+@property (nonatomic, strong) NSArray *textBlocks;
 @property (nonatomic, assign) ZCLayoutGroupType groupType;
 
 

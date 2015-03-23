@@ -5,10 +5,10 @@
 //  Created by Chen Zhang on 3/17/15.
 //  Copyright (c) 2015 alipay. All rights reserved.
 //
-//  3d transform on image doesn't seem practical in real time on images better than a dime
-//  use layerBased implementation isntead
+//  3d transform on image doesn't seem practical in real time on images bigger than a dime
+//  use layerBased implementation instead
 //
-//  duration should be longer to see the full rotation
+//  duration should be longer to notice full rotation
 //
 
 #import "ZCSpinLabel.h"
@@ -24,22 +24,22 @@
     return self;
 }
 
-- (void) customAttributeInit:(ZCTextBlock *)attribute
+- (void) customTextBlockInit:(ZCTextBlock *)textBlock
 {
-    ZCTextBlockLayer *layer = attribute.textBlockLayer;
+    ZCTextBlockLayer *layer = textBlock.textBlockLayer;
     layer.backgroundColor = [UIColor clearColor].CGColor;
     layer.transform = CATransform3DMakeRotation((M_PI / 2), 0, 1, 0);
     [layer setNeedsDisplay];
 }
 
 
-- (void) customViewAppearChangesForAttribute: (ZCTextBlock *) attribute
+- (void) customViewAppearChangesForTextBlock: (ZCTextBlock *) textBlock
 {
-    if (attribute.progress <= 0) {
+    if (textBlock.progress <= 0) {
         return;
     }
-    CGFloat realProgress = [ZCEasingUtil bounceWithStiffness:ZCAnimatedLabelStiffnessMedium numberOfBounces:1 time:attribute.progress shake:NO shouldOvershoot:YES];
-    attribute.textBlockLayer.transform = CATransform3DMakeRotation(2 * M_PI * (1 - realProgress), 0, 1, 0);
+    CGFloat realProgress = [ZCEasingUtil bounceWithStiffness:ZCAnimatedLabelStiffnessMedium numberOfBounces:1 time:textBlock.progress shake:NO shouldOvershoot:YES];
+    textBlock.textBlockLayer.transform = CATransform3DMakeRotation(2 * M_PI * (1 - realProgress), 0, 1, 0);
 }
 
 

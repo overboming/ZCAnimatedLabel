@@ -18,29 +18,29 @@
     return self;
 }
 
-- (void) customAttributeInit:(ZCTextBlock *)attribute
+- (void) customTextBlockInit:(ZCTextBlock *)textBlock
 {
 }
 
-- (void) customAppearDrawingForRect: (CGRect) rect attribute: (ZCTextBlock *) attribute
+- (void) customAppearDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock
 {
-    if (attribute.progress <= 0.0f) {
+    if (textBlock.progress <= 0.0f) {
         return;
     }
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
     
-    CGRect boundingBox = attribute.charRect;
+    CGRect boundingBox = textBlock.charRect;
     
     CGFloat maxRadius = boundingBox.size.width > boundingBox.size.height ? boundingBox.size.width : boundingBox.size.height;
-    CGFloat radius = [ZCEasingUtil easeOutWithStartValue:0 endValue:maxRadius time:attribute.progress];
+    CGFloat radius = [ZCEasingUtil easeOutWithStartValue:0 endValue:maxRadius time:textBlock.progress];
 
     CGFloat centerX = CGRectGetMidX(boundingBox);
     CGFloat centerY = CGRectGetMidY(boundingBox);
     CGContextAddEllipseInRect(context, CGRectMake(centerX - radius, centerY - radius, 2 * radius, 2 * radius));
     CGContextEOClip(context);
     
-    [attribute.derivedAttributedString drawInRect:attribute.charRect];
+    [textBlock.derivedAttributedString drawInRect:textBlock.charRect];
     CGContextRestoreGState(context);
 }
 @end

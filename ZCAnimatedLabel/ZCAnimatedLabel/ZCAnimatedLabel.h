@@ -23,22 +23,22 @@ typedef NS_ENUM(NSInteger, ZCAnimatedLabelAppearDirection)
 
 @interface ZCAnimatedLabel : UIView
 
-/*
+/**
  * time for one text attribute to do completion animation
  */
 @property (nonatomic, assign) CGFloat animationDuration;
 
-/*
+/**
  * start time offset for each group
  */
 @property (nonatomic, assign) CGFloat animationDelay;
 
-/*
+/**
  * duration for the label to finish animation on screen
  */
 @property (nonatomic, readonly) CGFloat totoalAnimationDuration;
 
-/*
+/**
  * font, text, textColor, attributedString
  * similar to how it works in UILabel
  */
@@ -48,23 +48,29 @@ typedef NS_ENUM(NSInteger, ZCAnimatedLabelAppearDirection)
 @property (nonatomic, strong) NSAttributedString *attributedString;
 
 /**
- * If YES, eash text block will be UIView instead of redraw
+ * If YES, eash text block will be CALayer instead of redraw
  * default to NO
  */
 @property (nonatomic, assign) BOOL layerBased;
 
-
+/**
+ * If set to YES, will use a new random background color for each redraw
+ */
 @property (nonatomic, assign) BOOL debugRedraw;
-@property (nonatomic, assign) BOOL drawsCharRect;
 
 /**
- * if set to NO, whole rect will be redrawn on displayLinkTick
+ * If set to YES, will show bounds of each TextBlock
+ */
+@property (nonatomic, assign) BOOL debugTextBlockBounds;
+
+/**
+ * If set to NO, whole rect will be redrawn on each displayLink tick
  * default to YES
  */
 @property (nonatomic, assign) BOOL onlyDrawDirtyArea;
 
-/*
- * appear direction only works in default implemention
+/**
+ * Appear direction only works in default implemention
  * add your own option in subclass implemention
  */
 @property (nonatomic, assign) ZCAnimatedLabelAppearDirection appearDirection;
@@ -83,27 +89,39 @@ typedef NS_ENUM(NSInteger, ZCAnimatedLabelAppearDirection)
 
 - (void) stopAnimation;
 
-/*
- * custom drawing
+/**
+ * One time init after the layout is done, use customValue to retain custom attributes
  */
-- (void) customAppearDrawingForRect: (CGRect) rect attribute: (ZCTextBlock *) attribute;
-
-- (void) customDisappearDrawingForRect: (CGRect) rect attribute: (ZCTextBlock *) attribute;
-
-- (void) customAttributeInit: (ZCTextBlock *) attribute;
+- (void) customTextBlockInit: (ZCTextBlock *) textBlock;
 
 
-/*
- * custom view manipulation
+/**
+ * Custom drawing methods for appear animation
+ * Only used when layerBased is set to NO
+ *
+ * @param rect The area of redraw
+ * @param textBlock The text block object needed to do custom drawing
  */
-- (void) customViewAppearChangesForAttribute: (ZCTextBlock *) attribute;
+- (void) customAppearDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock;
 
-- (void) customViewDisappearChangesForAttribute: (ZCTextBlock *) attribute;
+- (void) customDisappearDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock;
 
-/*
- * override this to decide which part of the rect needs redraw
+/**
+ * Override this to decide which part of the rect needs redraw,
+ * Only used when layerBased is set to NO
+ * @return custom area that should be redrawn
  */
-- (CGRect) customRedrawAreaWithRect: (CGRect) rect attribute: (ZCTextBlock *) attribute;
+- (CGRect) customRedrawAreaWithRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock;
+
+
+/**
+ * Custom changes to the layer of each TextBlock
+ * Only used when layerBased is set to YES
+ */
+- (void) customViewAppearChangesForTextBlock: (ZCTextBlock *) textBlock;
+
+- (void) customViewDisappearChangesForTextBlock: (ZCTextBlock *) textBlock;
+
 
 
 

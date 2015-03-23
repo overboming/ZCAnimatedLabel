@@ -18,36 +18,36 @@
     return self;
 }
 
-- (void) customAttributeInit:(ZCTextBlock *)attribute
+- (void) customTextBlockInit:(ZCTextBlock *)textBlock
 {
     //customValue used as delay time
-    attribute.startDelay = drand48();
-    attribute.duration = drand48() * 2 + 1;
+    textBlock.startDelay = drand48();
+    textBlock.duration = drand48() * 2 + 1;
 }
 
-- (void) customAppearDrawingForRect: (CGRect) rect attribute: (ZCTextBlock *) attribute
+- (void) customAppearDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock
 {
-    CGFloat alpha = [ZCEasingUtil easeOutWithStartValue:0 endValue:1 time:attribute.progress];
+    CGFloat alpha = [ZCEasingUtil easeOutWithStartValue:0 endValue:1 time:textBlock.progress];
     //skip very low alpha
     if (alpha < 0.01) {
         return;
     }
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
-    UIColor *color = [attribute.derivedTextColor colorWithAlphaComponent:alpha];
-    attribute.textColor = color;
-    [attribute.derivedAttributedString drawInRect:attribute.charRect];
+    UIColor *color = [textBlock.derivedTextColor colorWithAlphaComponent:alpha];
+    textBlock.textColor = color;
+    [textBlock.derivedAttributedString drawInRect:textBlock.charRect];
     CGContextRestoreGState(context);
 }
 
-- (void) customDisappearDrawingForRect:(CGRect)rect attribute:(ZCTextBlock *)attribute
+- (void) customDisappearDrawingForRect:(CGRect)rect textBlock:(ZCTextBlock *) textBlock
 {
-    CGFloat alpha = [ZCEasingUtil easeOutWithStartValue:1 endValue:0 time:attribute.progress];
+    CGFloat alpha = [ZCEasingUtil easeOutWithStartValue:1 endValue:0 time:textBlock.progress];
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
-    UIColor *color = [attribute.derivedTextColor colorWithAlphaComponent:alpha];
-    attribute.textColor = color;
-    [attribute.derivedAttributedString drawInRect:attribute.charRect];
+    UIColor *color = [textBlock.derivedTextColor colorWithAlphaComponent:alpha];
+    textBlock.textColor = color;
+    [textBlock.derivedAttributedString drawInRect:textBlock.charRect];
     CGContextRestoreGState(context);
 }
 

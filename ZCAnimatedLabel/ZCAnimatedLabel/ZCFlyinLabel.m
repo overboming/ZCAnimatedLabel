@@ -19,33 +19,33 @@
     return self;
 }
 
-- (void) customAttributeInit:(ZCTextBlock *)attribute
+- (void) customTextBlockInit:(ZCTextBlock *)textBlock
 {
 }
 
-- (CGRect) customRedrawAreaWithRect: (CGRect) rect attribute: (ZCTextBlock *) attribute
+- (CGRect) customRedrawAreaWithRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock
 {
-    CGRect charRect = attribute.charRect;
+    CGRect charRect = textBlock.charRect;
     return CGRectMake(0, charRect.origin.y, rect.size.width, rect.size.height - charRect.origin.y);
 }
 
-- (void) customAppearDrawingForRect: (CGRect) rect attribute: (ZCTextBlock *) attribute
+- (void) customAppearDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock
 {
-    CGFloat scale = [ZCEasingUtil easeOutWithStartValue:5 endValue:1 time:attribute.progress];
-    CGFloat alpha = [ZCEasingUtil easeOutWithStartValue:0 endValue:1 time:attribute.progress];
+    CGFloat scale = [ZCEasingUtil easeOutWithStartValue:5 endValue:1 time:textBlock.progress];
+    CGFloat alpha = [ZCEasingUtil easeOutWithStartValue:0 endValue:1 time:textBlock.progress];
     //skip very low alpha
     if (alpha < 0.01) {
         return;
     }
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
-    CGFloat flyDirectionOffset = (1-attribute.progress) * attribute.derivedFont.pointSize * 2;
-    CGContextTranslateCTM(context, CGRectGetMidX(attribute.charRect), CGRectGetMidY(attribute.charRect));
+    CGFloat flyDirectionOffset = (1-textBlock.progress) * textBlock.derivedFont.pointSize * 2;
+    CGContextTranslateCTM(context, CGRectGetMidX(textBlock.charRect), CGRectGetMidY(textBlock.charRect));
     CGContextScaleCTM(context, scale, scale);
-    UIColor *color = [attribute.derivedTextColor colorWithAlphaComponent:alpha];
-    CGRect rotatedRect = CGRectMake(-attribute.charRect.size.width / 2 + flyDirectionOffset, - attribute.charRect.size.height / 2 + flyDirectionOffset, attribute.charRect.size.width, attribute.charRect.size.height);
-    attribute.textColor = color;
-    [attribute.derivedAttributedString drawInRect:rotatedRect];
+    UIColor *color = [textBlock.derivedTextColor colorWithAlphaComponent:alpha];
+    CGRect rotatedRect = CGRectMake(-textBlock.charRect.size.width / 2 + flyDirectionOffset, - textBlock.charRect.size.height / 2 + flyDirectionOffset, textBlock.charRect.size.width, textBlock.charRect.size.height);
+    textBlock.textColor = color;
+    [textBlock.derivedAttributedString drawInRect:rotatedRect];
     CGContextRestoreGState(context);
 }
 

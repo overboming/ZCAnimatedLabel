@@ -18,25 +18,25 @@
     return self;
 }
 
-- (CGRect) customRedrawAreaWithRect:(CGRect)rect attribute:(ZCTextBlock *)attribute
+- (CGRect) customRedrawAreaWithRect:(CGRect)rect textBlock:(ZCTextBlock *) attribute
 {
     CGRect charRect = attribute.charRect;
     return CGRectMake(0, 0, CGRectGetMaxX(charRect), CGRectGetMaxY(charRect));
 }
 
-- (void) customAppearDrawingForRect: (CGRect) rect attribute: (ZCTextBlock *) attribute
+- (void) customAppearDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock
 {
-    CGFloat realProgress = [ZCEasingUtil bounceWithStiffness:0.01 numberOfBounces:1 time:attribute.progress shake:NO shouldOvershoot:NO];
+    CGFloat realProgress = [ZCEasingUtil bounceWithStiffness:0.01 numberOfBounces:1 time:textBlock.progress shake:NO shouldOvershoot:NO];
     if (realProgress < 0.01) {
         return;
     }
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
     CGContextScaleCTM(context, 0.2 + 0.8 * realProgress, 0.2 + 0.8 * realProgress);
-    UIColor *color = [attribute.derivedTextColor colorWithAlphaComponent:realProgress];
+    UIColor *color = [textBlock.derivedTextColor colorWithAlphaComponent:realProgress];
 
-    attribute.textColor = color;
-    [attribute.derivedAttributedString drawInRect:attribute.charRect];;
+    textBlock.textColor = color;
+    [textBlock.derivedAttributedString drawInRect:textBlock.charRect];;
     CGContextRestoreGState(context);
 }
 

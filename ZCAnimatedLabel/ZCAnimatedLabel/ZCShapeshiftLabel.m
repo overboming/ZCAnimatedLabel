@@ -18,24 +18,24 @@
     return self;
 }
 
-- (void) customAppearDrawingForRect: (CGRect) rect attribute: (ZCTextBlock *) attribute
+- (void) customAppearDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock
 {
-    CGFloat alpha = [ZCEasingUtil easeInWithStartValue:0 endValue:1 time:attribute.progress];
+    CGFloat alpha = [ZCEasingUtil easeInWithStartValue:0 endValue:1 time:textBlock.progress];
     if (alpha < 0.01) {
         return;
     }
-    CGFloat realProgress = [ZCEasingUtil bounceWithStiffness:ZCAnimatedLabelStiffnessMedium numberOfBounces:1 time:attribute.progress shake:YES shouldOvershoot:NO];
+    CGFloat realProgress = [ZCEasingUtil bounceWithStiffness:ZCAnimatedLabelStiffnessMedium numberOfBounces:1 time:textBlock.progress shake:YES shouldOvershoot:NO];
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
-    CGContextTranslateCTM(context, CGRectGetMidX(attribute.charRect), CGRectGetMidY(attribute.charRect));
+    CGContextTranslateCTM(context, CGRectGetMidX(textBlock.charRect), CGRectGetMidY(textBlock.charRect));
     CGContextRotateCTM(context, M_PI / 2 * (1 - realProgress));
     
-    CGFloat scaleY = attribute.progress < 0.5 ? 0.3 : [ZCEasingUtil bounceWithStartValue:0.3 endValue:1 time:(attribute.progress-0.5)/0.7];
+    CGFloat scaleY = textBlock.progress < 0.5 ? 0.3 : [ZCEasingUtil bounceWithStartValue:0.3 endValue:1 time:(textBlock.progress-0.5)/0.7];
     CGContextScaleCTM(context, 1, scaleY);
-    UIColor *color = [attribute.derivedTextColor colorWithAlphaComponent:alpha];
-    CGRect rotatedRect = CGRectMake(-attribute.charRect.size.width / 2, - attribute.charRect.size.height / 2, attribute.charRect.size.width, attribute.charRect.size.height);
-    attribute.textColor = color;
-    [attribute.derivedAttributedString drawInRect:rotatedRect];
+    UIColor *color = [textBlock.derivedTextColor colorWithAlphaComponent:alpha];
+    CGRect rotatedRect = CGRectMake(-textBlock.charRect.size.width / 2, - textBlock.charRect.size.height / 2, textBlock.charRect.size.width, textBlock.charRect.size.height);
+    textBlock.textColor = color;
+    [textBlock.derivedAttributedString drawInRect:rotatedRect];
     CGContextRestoreGState(context);
 }
 

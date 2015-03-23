@@ -90,29 +90,29 @@
     return self;
 }
 
-- (void) customAttributeInit:(ZCTextBlock *)attribute
+- (void) customTextBlockInit:(ZCTextBlock *)textBlock
 {
     
 }
 
-- (void) customAppearDrawingForRect: (CGRect) rect attribute: (ZCTextBlock *) attribute
+- (void) customAppearDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock
 {
-    CGFloat alpha = [ZCEasingUtil easeInWithStartValue:0 endValue:1 time:attribute.progress];
-    if (attribute.progress <= 0 || alpha < 0.01) {
+    CGFloat alpha = [ZCEasingUtil easeInWithStartValue:0 endValue:1 time:textBlock.progress];
+    if (textBlock.progress <= 0 || alpha < 0.01) {
         return;
     }
     
-    UIGraphicsBeginImageContextWithOptions(attribute.charRect.size, NO, [UIScreen mainScreen].scale);
-    UIColor *color = [attribute.derivedTextColor colorWithAlphaComponent:alpha];
-    attribute.textColor = color;
-    [attribute.derivedAttributedString drawInRect:CGRectMake(0, 0, attribute.charRect.size.width, attribute.charRect.size.height)];
+    UIGraphicsBeginImageContextWithOptions(textBlock.charRect.size, NO, [UIScreen mainScreen].scale);
+    UIColor *color = [textBlock.derivedTextColor colorWithAlphaComponent:alpha];
+    textBlock.textColor = color;
+    [textBlock.derivedAttributedString drawInRect:CGRectMake(0, 0, textBlock.charRect.size.width, textBlock.charRect.size.height)];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 
-    image = [image blurredImageWithRadius:10 * (1 - attribute.progress) iterations:1 tintColor:nil];
+    image = [image blurredImageWithRadius:10 * (1 - textBlock.progress) iterations:1 tintColor:nil];
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
-    [image drawInRect:attribute.charRect];
+    [image drawInRect:textBlock.charRect];
     CGContextRestoreGState(context);
 }
 

@@ -43,7 +43,7 @@
 
 - (NSString *) description
 {
-    return [NSString stringWithFormat:@"[ZCSimpleLayout %@, %@]", self.text, NSStringFromCGRect(self.charRect)];
+    return [NSString stringWithFormat:@"[%@ %@, %@]", [self class], self.text, NSStringFromCGRect(self.charRect)];
 }
 
 - (void) updateBaseAttributedString: (NSAttributedString *) attributedString
@@ -95,7 +95,7 @@
 
 - (void) cleanLayout
 {
-    self.textAttributes = nil;
+    self.textBlocks = nil;
 }
 
 
@@ -188,13 +188,13 @@
         }];
          
         [lineString enumerateSubstringsInRange:NSMakeRange(0, lineRange.length) options:options usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
-            ZCTextBlock *attribute = [[ZCTextBlock alloc] init];
-            attribute.text = [lineString substringWithRange:enclosingRange];
-            attribute.textRange = enclosingRange;
+            ZCTextBlock *textBlock = [[ZCTextBlock alloc] init];
+            textBlock.text = [lineString substringWithRange:enclosingRange];
+            textBlock.textRange = enclosingRange;
             NSMutableAttributedString *subLineString = [[attributedString attributedSubstringFromRange:NSMakeRange(enclosingRange.location + lineRange.location, enclosingRange.length)] mutableCopy];
             [subLineString removeAttribute:NSParagraphStyleAttributeName range:NSMakeRange(0, subLineString.length)];
             UIFont *font = [subLineString attribute:NSFontAttributeName atIndex:0 effectiveRange:NULL];
-            [attribute updateBaseAttributedString:subLineString];
+            [textBlock updateBaseAttributedString:subLineString];
             
             CGFloat startOffset = CTLineGetOffsetForStringIndex(line, enclosingRange.location + lineRange.location, NULL);
             CGFloat endOffset = CTLineGetOffsetForStringIndex(line, enclosingRange.location + enclosingRange.length + lineRange.location, NULL);
@@ -207,15 +207,15 @@
                 realHeight = lineHeight;
                 originDiff = 0;
             }
-            attribute.charRect = CGRectMake(startOffset + lineOrigins[i].x, startOffsetY + originDiff, endOffset - startOffset, realHeight);
-            [textAttributes addObject:attribute];
+            textBlock.charRect = CGRectMake(startOffset + lineOrigins[i].x, startOffsetY + originDiff, endOffset - startOffset, realHeight);
+            [textAttributes addObject:textBlock];
             
             if (self.layerBased) {                
                 ZCTextBlockLayer *textBlockLayer = [[ZCTextBlockLayer alloc] init];
-                textBlockLayer.frame = attribute.charRect;
+                textBlockLayer.frame = textBlock.charRect;
                 textBlockLayer.attributedString = subLineString;
                 textBlockLayer.backgroundColor = [UIColor clearColor].CGColor;
-                attribute.textBlockLayer = textBlockLayer;
+                textBlock.textBlockLayer = textBlockLayer;
             }
         }];
         
@@ -223,7 +223,7 @@
         
     }
     
-    self.textAttributes = textAttributes;
+    self.textBlocks = textAttributes;
     
     //free stuff
     free(lineOrigins);

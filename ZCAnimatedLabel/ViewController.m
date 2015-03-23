@@ -153,7 +153,7 @@
 
 - (IBAction)debugCharRect:(id)sender
 {
-    self.label.drawsCharRect = self.debugFrames.isOn;
+    self.label.debugTextBlockBounds = self.debugFrames.isOn;
 }
 
 - (void)didReceiveMemoryWarning {
