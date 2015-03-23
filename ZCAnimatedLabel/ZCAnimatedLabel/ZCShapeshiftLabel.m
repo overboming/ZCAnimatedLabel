@@ -24,7 +24,7 @@
     if (alpha < 0.01) {
         return;
     }
-    CGFloat realProgress = [ZCEasingUtil bounceWithStiffness:ZCAnimatedLabelStiffnessMedium numberOfBounces:1 time:textBlock.progress shake:YES shouldOvershoot:NO];
+    CGFloat realProgress = [ZCEasingUtil bounceWithStiffness:kZCAnimatedLabelStiffnessMedium numberOfBounces:1 time:textBlock.progress shake:YES shouldOvershoot:NO];
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
     CGContextTranslateCTM(context, CGRectGetMidX(textBlock.charRect), CGRectGetMidY(textBlock.charRect));

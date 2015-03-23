@@ -23,7 +23,7 @@
     if (textBlock.progress <= 0) {
         return;
     }
-    CGFloat realProgress = [ZCEasingUtil bounceWithStiffness:ZCAnimatedLabelStiffnessMedium numberOfBounces:3 time:textBlock.progress shake:YES shouldOvershoot:YES];
+    CGFloat realProgress = [ZCEasingUtil bounceWithStiffness:kZCAnimatedLabelStiffnessMedium numberOfBounces:3 time:textBlock.progress shake:YES shouldOvershoot:YES];
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
     CGContextTranslateCTM(context, CGRectGetMidX(textBlock.charRect), CGRectGetMaxY(textBlock.charRect));

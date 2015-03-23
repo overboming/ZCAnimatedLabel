@@ -27,9 +27,15 @@
 - (void) customTextBlockInit:(ZCTextBlock *)textBlock
 {
     ZCTextBlockLayer *layer = textBlock.textBlockLayer;
+    [CATransaction begin];
+    [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+
     layer.backgroundColor = [UIColor clearColor].CGColor;
     layer.transform = CATransform3DMakeRotation((M_PI / 2), 0, 1, 0);
     [layer setNeedsDisplay];
+    layer.anchorPoint = CGPointMake(0, 0.5);
+    layer.position = CGPointMake(textBlock.textBlockLayer.position.x - CGRectGetWidth(textBlock.charRect)/2, textBlock.textBlockLayer.position.y);
+    [CATransaction commit];
 }
 
 
@@ -38,8 +44,13 @@
     if (textBlock.progress <= 0) {
         return;
     }
-    CGFloat realProgress = [ZCEasingUtil bounceWithStiffness:ZCAnimatedLabelStiffnessMedium numberOfBounces:1 time:textBlock.progress shake:NO shouldOvershoot:YES];
-    textBlock.textBlockLayer.transform = CATransform3DMakeRotation(2 * M_PI * (1 - realProgress), 0, 1, 0);
+    CGFloat realProgress = M_PI / 2 * ([ZCEasingUtil easeOutBackStartValue:1 endValue:0 time:textBlock.progress]);
+    
+    //This is to disable implicit animation of CALayer
+    [CATransaction begin];
+    [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+    textBlock.textBlockLayer.transform = CATransform3DMakeRotation(realProgress, 0, 1, 1);
+    [CATransaction commit];
 }
 
 

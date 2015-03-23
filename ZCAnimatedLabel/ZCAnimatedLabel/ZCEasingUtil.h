@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 
-static const CGFloat ZCAnimatedLabelStiffnessLight  = 5.f;
-static const CGFloat ZCAnimatedLabelStiffnessMedium = .1f;
-static const CGFloat ZCAnimatedLabelStiffnessHeavy  = .001f;
+static const CGFloat kZCAnimatedLabelStiffnessLight  = 5.f;
+static const CGFloat kZCAnimatedLabelStiffnessMedium = .1f;
+static const CGFloat kZCAnimatedLabelStiffnessHeavy  = .001f;
 
 @interface ZCEasingUtil : NSObject
 
@@ -21,5 +21,10 @@ static const CGFloat ZCAnimatedLabelStiffnessHeavy  = .001f;
 
 + (CGFloat) easeInWithStartValue: (CGFloat) startValue endValue: (CGFloat) endValue time:(CGFloat) progress;
 + (CGFloat) easeOutWithStartValue: (CGFloat) startValue endValue: (CGFloat) endValue time:(CGFloat) progress;
++ (CGFloat) easeInBounceStartValue: (CGFloat) startValue endValue: (CGFloat) endValue time: (CGFloat) progress;
++ (CGFloat) easeOutBounceStartValue: (CGFloat) startValue endValue: (CGFloat) endValue time: (CGFloat) progress;
++ (CGFloat) easeOutBackStartValue: (CGFloat) startValue endValue: (CGFloat) endValue time: (CGFloat) progress;
++ (CGFloat) easeInBackStartValue: (CGFloat) startValue endValue: (CGFloat) endValue time: (CGFloat) progress;
+
 
 @end

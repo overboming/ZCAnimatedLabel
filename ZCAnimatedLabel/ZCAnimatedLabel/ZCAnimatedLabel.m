@@ -91,8 +91,9 @@
             if (timePassed > duration && !textBlock.ended) {
                 progress = 1;
                 textBlock.ended = YES; //ended
+                textBlock.progress = progress;
                 if (self.layerBased) {
-                    [self updateViewStateWithAttributes:textBlock];
+                    [self updateViewStateWithTextBlock:textBlock];
                 }
                 else {
                     CGRect dityRect = [self customRedrawAreaWithRect:self.bounds textBlock:textBlock];
@@ -103,17 +104,18 @@
                 progress = 0;
             }
             else {
+                progress = timePassed / duration;
+                progress = progress > 1 ? 1 : progress;
                 if (!textBlock.ended) {
+                    textBlock.progress = progress;
                     if (self.layerBased) {
-                        [self updateViewStateWithAttributes:textBlock];
+                        [self updateViewStateWithTextBlock:textBlock];
                     }
                     else {
                         CGRect dityRect = [self customRedrawAreaWithRect:self.bounds textBlock:textBlock];
                         [self setNeedsDisplayInRect:dityRect];
                     }
                 }
-                progress = timePassed / duration;
-                progress = progress > 1 ? 1 : progress;
             }
             textBlock.progress = progress;
         }];
@@ -277,7 +279,7 @@
     [self setNeedsDisplay];
 }
 
-- (void) setlayerBased:(BOOL)layerBased
+- (void) setLayerBased:(BOOL)layerBased
 {
     _layerBased = layerBased;
     [self setNeedsDisplay]; //blank draw rect
@@ -395,13 +397,13 @@
 
 #pragma mark Custom View Attribute Changes
 
-- (void) updateViewStateWithAttributes: (ZCTextBlock *) textBlock
+- (void) updateViewStateWithTextBlock: (ZCTextBlock *) textBlock
 {
     if (self.animatingAppear) {
         [self customViewAppearChangesForTextBlock:textBlock];
     }
     if (!self.animatingAppear) {
-        [self customViewAppearChangesForTextBlock:textBlock];
+        [self customViewDisappearChangesForTextBlock:textBlock];
     }
 }
 

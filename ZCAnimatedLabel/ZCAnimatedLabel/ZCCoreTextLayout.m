@@ -43,7 +43,7 @@
 
 - (NSString *) description
 {
-    return [NSString stringWithFormat:@"[%@ %@, %@]", [self class], self.text, NSStringFromCGRect(self.charRect)];
+    return [NSString stringWithFormat:@"[%@ %@, %@, %f]", [self class], self.text, NSStringFromCGRect(self.charRect), self.progress];
 }
 
 - (void) updateBaseAttributedString: (NSAttributedString *) attributedString

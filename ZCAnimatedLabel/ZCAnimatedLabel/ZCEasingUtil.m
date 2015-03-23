@@ -22,6 +22,49 @@ CGFloat QuadraticEaseOut(CGFloat p)
 }
 
 
+CGFloat BounceEaseOut(CGFloat p)
+{
+    if(p < 1/2.75)
+    {
+        return (7.5625 * p * p);
+    }
+    else if(p < 2/2.75)
+    {
+        p-=(1.5/2.75);
+        return (7.5625 *  p *p + .75);
+    }
+    else if(p < 9/10.0)
+    {
+        p-=(2.25/2.75);
+        return (7.5625 * p * p + .9375);
+    }
+    else
+    {
+        p-=(2.625/2.75);
+        return (7.5625* p * p + .984375);
+    }
+}
+
+CGFloat BounceEaseIn(CGFloat p)
+{
+    return 1 - BounceEaseOut(1 - p);
+}
+
+CGFloat BackEaseIn(CGFloat p)
+{
+    CGFloat s = 1.70158;
+    return (p * p * ((s + 1.0) * p - s));
+}
+
+CGFloat BackEaseOut(CGFloat p)
+{
+    CGFloat s = 1.70158;
+    CGFloat p2 = p - 1.0;
+    return (p2 * p2 * ((s + 1.0) * p2 + s) + 1.0);
+}
+
+
+
 @implementation ZCEasingUtil
 
 + (CGFloat) bounceWithStiffness: (CGFloat) stiffness numberOfBounces: (CGFloat) numberOfBounces time: (CGFloat) progress shake: (BOOL) shake shouldOvershoot: (BOOL) shouldOvershoot startValue: (CGFloat) start endValue: (CGFloat) end {
@@ -80,6 +123,26 @@ CGFloat QuadraticEaseOut(CGFloat p)
 + (CGFloat) easeOutWithStartValue: (CGFloat) startValue endValue: (CGFloat) endValue time:(CGFloat) progress
 {
     return startValue + (endValue - startValue) * QuadraticEaseOut(progress);
+}
+
++ (CGFloat) easeOutBounceStartValue: (CGFloat) startValue endValue: (CGFloat) endValue time: (CGFloat) progress
+{
+    return startValue + (endValue - startValue) * BounceEaseOut(progress);
+}
+
++ (CGFloat) easeInBounceStartValue: (CGFloat) startValue endValue: (CGFloat) endValue time: (CGFloat) progress
+{
+    return startValue + (endValue - startValue) * BounceEaseIn(progress);
+}
+
++ (CGFloat) easeOutBackStartValue: (CGFloat) startValue endValue: (CGFloat) endValue time: (CGFloat) progress
+{
+    return startValue + (endValue - startValue) * BackEaseOut(progress);
+}
+
++ (CGFloat) easeInBackStartValue: (CGFloat) startValue endValue: (CGFloat) endValue time: (CGFloat) progress
+{
+    return startValue + (endValue - startValue) * BackEaseIn(progress);
 }
 
 @end
