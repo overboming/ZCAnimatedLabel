@@ -18,6 +18,7 @@
 		16668B071AB049FA0047B706 /* ZCRevealLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 16668AF71AB049FA0047B706 /* ZCRevealLabel.m */; };
 		16668B081AB049FA0047B706 /* ZCThrownLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 16668AF91AB049FA0047B706 /* ZCThrownLabel.m */; };
 		16668B0A1AB049FA0047B706 /* ZCTransparencyLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 16668AFD1AB049FA0047B706 /* ZCTransparencyLabel.m */; };
+		168A61A31AC2DEA300E8EDBF /* ZCDashLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 168A61A21AC2DEA300E8EDBF /* ZCDashLabel.m */; };
 		16AE47B91AB13FF8001C1C72 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 16AE47AE1AB13FF8001C1C72 /* AppDelegate.m */; };
 		16AE47BA1AB13FF8001C1C72 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16AE47B01AB13FF8001C1C72 /* LaunchScreen.xib */; };
 		16AE47BB1AB13FF8001C1C72 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 16AE47B21AB13FF8001C1C72 /* Main.storyboard */; };
@@ -53,6 +54,8 @@
 		16668AF91AB049FA0047B706 /* ZCThrownLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZCThrownLabel.m; path = ZCAnimatedLabel/ZCThrownLabel.m; sourceTree = "<group>"; };
 		16668AFC1AB049FA0047B706 /* ZCTransparencyLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZCTransparencyLabel.h; path = ZCAnimatedLabel/ZCTransparencyLabel.h; sourceTree = "<group>"; };
 		16668AFD1AB049FA0047B706 /* ZCTransparencyLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZCTransparencyLabel.m; path = ZCAnimatedLabel/ZCTransparencyLabel.m; sourceTree = "<group>"; };
+		168A61A11AC2DEA300E8EDBF /* ZCDashLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZCDashLabel.h; path = ZCAnimatedLabel/ZCDashLabel.h; sourceTree = "<group>"; };
+		168A61A21AC2DEA300E8EDBF /* ZCDashLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZCDashLabel.m; path = ZCAnimatedLabel/ZCDashLabel.m; sourceTree = "<group>"; };
 		16A16C501A8DCC2500F6FC41 /* ZCAnimatedLabel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZCAnimatedLabel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		16AE47AD1AB13FF8001C1C72 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ZCAnimatedLabel/AppDelegate.h; sourceTree = "<group>"; };
 		16AE47AE1AB13FF8001C1C72 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ZCAnimatedLabel/AppDelegate.m; sourceTree = "<group>"; };
@@ -63,8 +66,8 @@
 		16AE47B61AB13FF8001C1C72 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ZCAnimatedLabel/main.m; sourceTree = "<group>"; };
 		16AE47B71AB13FF8001C1C72 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = ZCAnimatedLabel/ViewController.h; sourceTree = "<group>"; };
 		16AE47B81AB13FF8001C1C72 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ViewController.m; path = ZCAnimatedLabel/ViewController.m; sourceTree = "<group>"; };
-		16AE47C31AB83097001C1C72 /* ZCSpinLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZCSpinLabel.h; sourceTree = "<group>"; };
-		16AE47C41AB83097001C1C72 /* ZCSpinLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZCSpinLabel.m; sourceTree = "<group>"; };
+		16AE47C31AB83097001C1C72 /* ZCSpinLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZCSpinLabel.h; path = ZCAnimatedLabel/ZCSpinLabel.h; sourceTree = "<group>"; };
+		16AE47C41AB83097001C1C72 /* ZCSpinLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZCSpinLabel.m; path = ZCAnimatedLabel/ZCSpinLabel.m; sourceTree = "<group>"; };
 		16DA893C1AB13BAD00A31A47 /* ZCShapeshiftLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZCShapeshiftLabel.h; path = ZCAnimatedLabel/ZCShapeshiftLabel.h; sourceTree = "<group>"; };
 		16DA893D1AB13BAD00A31A47 /* ZCShapeshiftLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZCShapeshiftLabel.m; path = ZCAnimatedLabel/ZCShapeshiftLabel.m; sourceTree = "<group>"; };
 		24C5DFE2F6307197112AD6FC /* Pods-ZCMorphingLabel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZCMorphingLabel.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZCMorphingLabel/Pods-ZCMorphingLabel.release.xcconfig"; sourceTree = "<group>"; };
@@ -118,6 +121,8 @@
 				16668AFD1AB049FA0047B706 /* ZCTransparencyLabel.m */,
 				16AE47C31AB83097001C1C72 /* ZCSpinLabel.h */,
 				16AE47C41AB83097001C1C72 /* ZCSpinLabel.m */,
+				168A61A11AC2DEA300E8EDBF /* ZCDashLabel.h */,
+				168A61A21AC2DEA300E8EDBF /* ZCDashLabel.m */,
 			);
 			name = Subclasses;
 			sourceTree = "<group>";
@@ -284,6 +289,7 @@
 				16668B081AB049FA0047B706 /* ZCThrownLabel.m in Sources */,
 				16DA893E1AB13BAD00A31A47 /* ZCShapeshiftLabel.m in Sources */,
 				16AE47C51AB83097001C1C72 /* ZCSpinLabel.m in Sources */,
+				168A61A31AC2DEA300E8EDBF /* ZCDashLabel.m in Sources */,
 				16668B041AB049FA0047B706 /* ZCFocusLabel.m in Sources */,
 				16668B0A1AB049FA0047B706 /* ZCTransparencyLabel.m in Sources */,
 				16668B021AB049FA0047B706 /* ZCFallLabel.m in Sources */,

@@ -17,6 +17,7 @@
 #import "ZCFocusLabel.h"
 #import "ZCRevealLabel.h"
 #import "ZCSpinLabel.h"
+#import "ZCDashLabel.h"
 
 #import <objc/runtime.h>
 
@@ -35,7 +36,7 @@
 
 - (IBAction) changeEffect: (id) sender
 {
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Throw", @"Shapeshift", @"Default", @"Duang", @"Fall", @"Alpha", @"Flyin", @"Blur", @"Reveal", @"Spin", nil];
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Throw", @"Shapeshift", @"Default", @"Duang", @"Fall", @"Alpha", @"Flyin", @"Blur", @"Reveal", @"Spin", @"Dash", nil];
     [sheet showInView:self.view];
 }
 
@@ -74,8 +75,12 @@
         object_setClass(self.label, [ZCSpinLabel class]);
         self.label.layerBased = YES;
     }
+    else if (buttonIndex == 10) {
+        object_setClass(self.label, [ZCDashLabel class]);
+        self.label.layerBased = YES;
+    }
     
-    if (buttonIndex < 10) {
+    if (buttonIndex < 11) {
         [self.effectButton setTitle:[actionSheet buttonTitleAtIndex:buttonIndex] forState:UIControlStateNormal];
     }
     
