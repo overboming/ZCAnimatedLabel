@@ -21,10 +21,13 @@
 
 #import <objc/runtime.h>
 
+
 @interface ViewController ()<UIActionSheetDelegate>
+
 @end
 
 @implementation ViewController
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -42,8 +45,13 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    if (buttonIndex > 10) {
+        return;
+    }
+    
     self.label.onlyDrawDirtyArea = YES;
     self.label.layerBased = NO;
+    
     if (buttonIndex == 0) {
         object_setClass(self.label, [ZCThrownLabel class]);
     }
