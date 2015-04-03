@@ -152,10 +152,18 @@
     CGPoint shouldBePosition = CGPointMake(CGRectGetMinX(textBlock.charRect), CGRectGetMinY(textBlock.charRect));
     CALayer *textLayer = textBlock.textBlockLayer;
     textLayer.position = CGPointMake(shouldBePosition.x + (1 - realProgress) * (self.bounds.size.width - shouldBePosition.x), shouldBePosition.y);
-    textLayer.opacity = (textBlock.progress < 0.5) ? [ZCEasingUtil easeInWithStartValue:0 endValue:0.5 time:textBlock.progress * 2] : 1;
-    CGRect rect = CGRectMake(textLayer.position.x, textLayer.position.y, textBlock.charRect.size.width, textBlock.charRect.size.height); //transform will change frame of layer
-    //0.5~1.0 shift
-    CGFloat horizontalShiftValue = ((textBlock.progress < 0.5) ? 1 : [ZCEasingUtil bounceWithStiffness:5 numberOfBounces:1 time:(textBlock.progress - 0.5) / 0.5 shake:NO shouldOvershoot:YES startValue:1 endValue:0]) * textBlock.derivedFont.pointSize * 0.7;
+    textLayer.opacity = (textBlock.progress < 0.5) ? [ZCEasingUtil easeInWithStartValue:0 endValue:1 time:textBlock.progress * 2] : 1;
+    CGRect rect = CGRectMake(textLayer.position.x, textLayer.position.y, textBlock.charRect.size.width, textBlock.charRect.size.height);
+    //0~0.5 dash in
+    //0.5~1.0 break
+    CGFloat horizontalShiftValue = 0;
+    if (textBlock.progress < 0.5) {
+        horizontalShiftValue = [ZCEasingUtil easeOutWithStartValue:1 endValue:0.6 time:textBlock.progress * 2];
+    }
+    else {
+        horizontalShiftValue = [ZCEasingUtil bounceWithStiffness:5 numberOfBounces:1 time:(textBlock.progress - 0.5) / 0.5 shake:NO shouldOvershoot:YES startValue:0.6 endValue:0];
+    }
+    horizontalShiftValue *=  textBlock.derivedFont.pointSize * 0.4;
 
     textBlock.textBlockLayer.transform = [textBlock.textBlockLayer
                                           transformToFitQuadTopLeft:CGPointMake(rect.origin.x + horizontalShiftValue, rect.origin.y)
