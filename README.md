@@ -8,7 +8,7 @@ UILabel-like view with easy to extend appear/disappear animation
 * Great performance, only changed area is redrawn
 * Optional layer-based implementation
 * 3D/Geometry transform support (layer based only)
-* iOS 5+ capatibility
+* iOS 5+ compatibility
 
 # Demo
 
