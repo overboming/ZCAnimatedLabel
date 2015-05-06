@@ -75,7 +75,7 @@ CGFloat BackEaseOut(CGFloat p)
     if (startValue == endValue) {
         alpha = log2f(stiffness);
     } else {
-        alpha = log2f(stiffness / fabsf(endValue - startValue));
+        alpha = log2f(stiffness / fabs(endValue - startValue));
     }
     if (alpha > 0) {
         alpha = -1.0f * alpha;
