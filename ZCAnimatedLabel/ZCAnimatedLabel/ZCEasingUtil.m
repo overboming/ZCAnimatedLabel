@@ -99,7 +99,7 @@ CGFloat BackEaseOut(CGFloat p)
     coefficient =  (startValue - endValue);
     
     if (!shouldOvershoot) {
-        oscillationComponent =  fabsf(oscillationComponent);
+        oscillationComponent =  fabs(oscillationComponent);
     }
     
     CGFloat value = coefficient * pow(2.71, alpha * t) * oscillationComponent + endValue;
