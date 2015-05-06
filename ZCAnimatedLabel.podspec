@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
 
   s.name         = "ZCAnimatedLabel"
-  s.version      = "0.1"
+  s.version      = "0.0.1"
   s.summary      = "UILabel replacement with customizable fine-grain appear/disappear animation"
 
   s.description  = <<-DESC
