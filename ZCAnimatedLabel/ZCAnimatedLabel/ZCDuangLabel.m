@@ -18,7 +18,7 @@
     return self;
 }
 
-- (void) customAppearDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock
+- (void) appearStateDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock
 {
     if (textBlock.progress <= 0) {
         return;

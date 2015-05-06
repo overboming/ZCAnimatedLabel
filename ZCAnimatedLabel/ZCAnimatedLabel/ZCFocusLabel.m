@@ -90,12 +90,12 @@
     return self;
 }
 
-- (void) customTextBlockInit:(ZCTextBlock *)textBlock
+- (void) textBlockAttributesInit:(ZCTextBlock *)textBlock
 {
     
 }
 
-- (void) customAppearDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock
+- (void) appearStateDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock
 {
     CGFloat alpha = [ZCEasingUtil easeInWithStartValue:0 endValue:1 time:textBlock.progress];
     if (textBlock.progress <= 0 || alpha < 0.01) {

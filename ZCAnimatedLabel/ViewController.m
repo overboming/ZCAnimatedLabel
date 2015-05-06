@@ -33,7 +33,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.label = [[ZCAnimatedLabel alloc] initWithFrame:CGRectMake(15, CGRectGetMaxY(self.debugRedraw.frame) + 15, self.view.frame.size.width - 30, CGRectGetHeight(self.view.frame) - CGRectGetMaxY(self.debugRedraw.frame))];
-    self.label.backgroundColor = [UIColor colorWithRed:0.86 green:0.83 blue:0.77 alpha:1];
     [self.view addSubview:self.label];
 }
 
@@ -138,11 +137,13 @@
     [mutableString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:28] range:[mutableString.string rangeOfString:@"sky"]];
     [mutableString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:0.7843 green:0.6352 blue:0.7843 alpha:1] range:[mutableString.string rangeOfString:@"lilacs"]];
     [mutableString addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor] range:[mutableString.string rangeOfString:@"spring"]];
+    [mutableString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:1] range:[mutableString.string rangeOfString:@"mourn’d"]];
     
     [mutableString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:[mutableString.string rangeOfString:@"夜空"]];
     [mutableString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:28] range:[mutableString.string rangeOfString:@"夜空"]];
     [mutableString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:0.7843 green:0.6352 blue:0.7843 alpha:1] range:[mutableString.string rangeOfString:@"紫丁香"]];
     [mutableString addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor] range:[mutableString.string rangeOfString:@"春光"]];
+    [mutableString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:1] range:[mutableString.string rangeOfString:@"哀悼"]];
 
     self.label.attributedString = mutableString;
     

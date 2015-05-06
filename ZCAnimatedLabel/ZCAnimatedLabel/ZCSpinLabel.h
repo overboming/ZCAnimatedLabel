@@ -3,7 +3,7 @@
 //  ZCAnimatedLabel
 //
 //  Created by Chen Zhang on 3/17/15.
-//  Copyright (c) 2015 alipay. All rights reserved.
+//  Copyright (c) 2015 overboming. All rights reserved.
 //
 
 #import "ZCAnimatedLabel.h"

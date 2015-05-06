@@ -18,11 +18,11 @@
     return self;
 }
 
-- (void) customTextBlockInit:(ZCTextBlock *)textBlock
+- (void) textBlockAttributesInit:(ZCTextBlock *)textBlock
 {
 }
 
-- (void) customAppearDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock
+- (void) appearStateDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock
 {
     if (textBlock.progress <= 0.0f) {
         return;

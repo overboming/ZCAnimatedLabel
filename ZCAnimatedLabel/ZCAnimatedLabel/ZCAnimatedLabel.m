@@ -96,7 +96,7 @@
                     [self updateViewStateWithTextBlock:textBlock];
                 }
                 else {
-                    CGRect dityRect = [self customRedrawAreaWithRect:self.bounds textBlock:textBlock];
+                    CGRect dityRect = [self redrawAreaForRect:self.bounds textBlock:textBlock];
                     [self setNeedsDisplayInRect:dityRect];
                 }
             }
@@ -112,7 +112,7 @@
                         [self updateViewStateWithTextBlock:textBlock];
                     }
                     else {
-                        CGRect dityRect = [self customRedrawAreaWithRect:self.bounds textBlock:textBlock];
+                        CGRect dityRect = [self redrawAreaForRect:self.bounds textBlock:textBlock];
                         [self setNeedsDisplayInRect:dityRect];
                     }
                 }
@@ -158,7 +158,7 @@
     __block CGFloat maxDuration = 0;
     [self.layoutTool.textBlocks enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         ZCTextBlock *textBlock = obj;
-        [self customTextBlockInit:textBlock];
+        [self textBlockAttributesInit:textBlock];
         
         CGFloat duration = textBlock.duration > 0 ? textBlock.duration : self.animationDuration;
         CGFloat startDelay = textBlock.startDelay > 0 ? textBlock.startDelay : idx * self.animationDelay;
@@ -291,18 +291,18 @@
 
 #pragma mark Custom Drawing
 
-- (void) customTextBlockInit: (ZCTextBlock *) textBlock
+- (void) textBlockAttributesInit: (ZCTextBlock *) textBlock
 {
     //override this in subclass if necessary
 }
 
 
-- (CGRect) customRedrawAreaWithRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock
+- (CGRect) redrawAreaForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock
 {
     return  textBlock.charRect;
 }
 
-- (void) customAppearDrawingForRect:(CGRect)rect textBlock: (ZCTextBlock *)textBlock
+- (void) appearStateDrawingForRect:(CGRect)rect textBlock: (ZCTextBlock *)textBlock
 {
     CGFloat realProgress = [ZCEasingUtil bounceWithStiffness:0.01 numberOfBounces:1 time:textBlock.progress shake:NO shouldOvershoot:NO];
     if (textBlock.progress <= 0.0f) {
@@ -338,10 +338,10 @@
     CGContextRestoreGState(context);
 }
 
-- (void) customDisappearDrawingForRect:(CGRect)rect textBlock:(ZCTextBlock *)textBlock
+- (void) disappearStateDrawingForRect:(CGRect)rect textBlock:(ZCTextBlock *)textBlock
 {
     textBlock.progress = 1 - textBlock.progress; //default implementation, might not looks right
-    [self customAppearDrawingForRect:rect textBlock:textBlock];
+    [self appearStateDrawingForRect:rect textBlock:textBlock];
 }
 
 - (void) drawRect:(CGRect)rect
@@ -381,10 +381,10 @@
         }
         else {
             if (self.animatingAppear) {
-                [self customAppearDrawingForRect:rect textBlock:textBlock];
+                [self appearStateDrawingForRect:rect textBlock:textBlock];
             }
             if (!self.animatingAppear) {
-                [self customDisappearDrawingForRect:rect textBlock:textBlock];
+                [self disappearStateDrawingForRect:rect textBlock:textBlock];
             }
         }
     }
@@ -400,19 +400,19 @@
 - (void) updateViewStateWithTextBlock: (ZCTextBlock *) textBlock
 {
     if (self.animatingAppear) {
-        [self customViewAppearChangesForTextBlock:textBlock];
+        [self appearStateLayerChangesForTextBlock:textBlock];
     }
     if (!self.animatingAppear) {
-        [self customViewDisappearChangesForTextBlock:textBlock];
+        [self disappearLayerStateChangesForTextBlock:textBlock];
     }
 }
 
-- (void) customViewAppearChangesForTextBlock: (ZCTextBlock *) textBlock
+- (void) appearStateLayerChangesForTextBlock: (ZCTextBlock *) textBlock
 {
     
 }
 
-- (void) customViewDisappearChangesForTextBlock: (ZCTextBlock *) textBlock
+- (void) disappearLayerStateChangesForTextBlock: (ZCTextBlock *) textBlock
 {
     
 }

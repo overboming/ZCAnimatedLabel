@@ -18,13 +18,13 @@
     return self;
 }
 
-- (CGRect) customRedrawAreaWithRect:(CGRect)rect textBlock:(ZCTextBlock *) attribute
+- (CGRect) redrawAreaForRect:(CGRect)rect textBlock:(ZCTextBlock *) attribute
 {
     CGRect charRect = attribute.charRect;
     return CGRectMake(0, 0, CGRectGetMaxX(charRect), CGRectGetMaxY(charRect));
 }
 
-- (void) customAppearDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock
+- (void) appearStateDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock
 {
     CGFloat realProgress = [ZCEasingUtil bounceWithStiffness:0.01 numberOfBounces:1 time:textBlock.progress shake:NO shouldOvershoot:NO];
     if (realProgress < 0.01) {

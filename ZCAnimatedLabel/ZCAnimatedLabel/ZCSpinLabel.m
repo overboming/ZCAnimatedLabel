@@ -3,7 +3,7 @@
 //  ZCAnimatedLabel
 //
 //  Created by Chen Zhang on 3/17/15.
-//  Copyright (c) 2015 alipay. All rights reserved.
+//  Copyright (c) 2015 overboming. All rights reserved.
 //
 //  3d transform on image doesn't seem practical in real time on images bigger than a dime
 //  use layerBased implementation instead
@@ -24,7 +24,7 @@
     return self;
 }
 
-- (void) customTextBlockInit:(ZCTextBlock *)textBlock
+- (void) textBlockAttributesInit:(ZCTextBlock *)textBlock
 {
     ZCTextBlockLayer *layer = textBlock.textBlockLayer;
     [CATransaction begin];
@@ -39,7 +39,7 @@
 }
 
 
-- (void) customViewAppearChangesForTextBlock: (ZCTextBlock *) textBlock
+- (void) appearStateLayerChangesForTextBlock: (ZCTextBlock *) textBlock
 {
     if (textBlock.progress <= 0) {
         return;

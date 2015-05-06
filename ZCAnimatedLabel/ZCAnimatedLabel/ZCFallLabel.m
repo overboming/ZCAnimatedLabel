@@ -20,19 +20,19 @@
     return self;
 }
 
-- (void) customTextBlockInit: (ZCTextBlock *) textBlock
+- (void) textBlockAttributesInit: (ZCTextBlock *) textBlock
 {
     textBlock.customValue = @((int)(arc4random() % 7) - 3);
     
 }
 
-- (CGRect) customRedrawAreaWithRect:(CGRect)rect textBlock:(ZCTextBlock *) textBlock
+- (CGRect) redrawAreaForRect:(CGRect)rect textBlock:(ZCTextBlock *) textBlock
 {
     CGRect charRect = textBlock.charRect;
     return CGRectMake(charRect.origin.x - textBlock.derivedFont.pointSize / 2, charRect.origin.y - textBlock.derivedFont.pointSize * 5, charRect.size.width + textBlock.derivedFont.pointSize, charRect.size.height + textBlock.derivedFont.pointSize * 5);
 }
 
-- (void) customAppearDrawingForRect: (CGRect) rect textBlock:(ZCTextBlock *) textBlock
+- (void) appearStateDrawingForRect: (CGRect) rect textBlock:(ZCTextBlock *) textBlock
 {
     CGFloat height = [ZCEasingUtil bounceWithStiffness:0.01 numberOfBounces:1 time:textBlock.progress shake:NO shouldOvershoot:NO startValue:CGRectGetMaxY(textBlock.charRect) - textBlock.derivedFont.pointSize * 5  endValue:CGRectGetMaxY(textBlock.charRect)];
     

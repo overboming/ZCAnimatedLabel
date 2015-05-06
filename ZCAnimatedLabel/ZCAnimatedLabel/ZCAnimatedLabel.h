@@ -92,7 +92,7 @@ typedef NS_ENUM(NSInteger, ZCAnimatedLabelAppearDirection)
 /**
  * One time init after the layout is done, use customValue to retain custom attributes
  */
-- (void) customTextBlockInit: (ZCTextBlock *) textBlock;
+- (void) textBlockAttributesInit: (ZCTextBlock *) textBlock;
 
 
 /**
@@ -102,25 +102,25 @@ typedef NS_ENUM(NSInteger, ZCAnimatedLabelAppearDirection)
  * @param rect The area of redraw
  * @param textBlock The text block object needed to do custom drawing
  */
-- (void) customAppearDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock;
+- (void) appearStateDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock;
 
-- (void) customDisappearDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock;
+- (void) disappearStateDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock;
 
 /**
  * Override this to decide which part of the rect needs redraw,
  * Only used when layerBased is set to NO
  * @return custom area that should be redrawn
  */
-- (CGRect) customRedrawAreaWithRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock;
+- (CGRect) redrawAreaForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock;
 
 
 /**
  * Custom changes to the layer of each TextBlock
  * Only used when layerBased is set to YES
  */
-- (void) customViewAppearChangesForTextBlock: (ZCTextBlock *) textBlock;
+- (void) appearStateLayerChangesForTextBlock: (ZCTextBlock *) textBlock;
 
-- (void) customViewDisappearChangesForTextBlock: (ZCTextBlock *) textBlock;
+- (void) disappearLayerStateChangesForTextBlock: (ZCTextBlock *) textBlock;
 
 
 

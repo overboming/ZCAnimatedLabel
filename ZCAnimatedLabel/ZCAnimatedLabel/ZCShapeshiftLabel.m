@@ -18,7 +18,7 @@
     return self;
 }
 
-- (void) customAppearDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock
+- (void) appearStateDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock
 {
     CGFloat alpha = [ZCEasingUtil easeInWithStartValue:0 endValue:1 time:textBlock.progress];
     if (alpha < 0.01) {

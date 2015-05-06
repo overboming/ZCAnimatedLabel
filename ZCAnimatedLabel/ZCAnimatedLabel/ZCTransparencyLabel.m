@@ -18,14 +18,14 @@
     return self;
 }
 
-- (void) customTextBlockInit:(ZCTextBlock *)textBlock
+- (void) textBlockAttributesInit:(ZCTextBlock *)textBlock
 {
     //customValue used as delay time
     textBlock.startDelay = drand48();
     textBlock.duration = drand48() * 2 + 1;
 }
 
-- (void) customAppearDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock
+- (void) appearStateDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock
 {
     CGFloat alpha = [ZCEasingUtil easeOutWithStartValue:0 endValue:1 time:textBlock.progress];
     //skip very low alpha
@@ -40,7 +40,7 @@
     CGContextRestoreGState(context);
 }
 
-- (void) customDisappearDrawingForRect:(CGRect)rect textBlock:(ZCTextBlock *) textBlock
+- (void) disappearStateDrawingForRect:(CGRect)rect textBlock:(ZCTextBlock *) textBlock
 {
     CGFloat alpha = [ZCEasingUtil easeOutWithStartValue:1 endValue:0 time:textBlock.progress];
     CGContextRef context = UIGraphicsGetCurrentContext();
