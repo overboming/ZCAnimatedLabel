@@ -12,17 +12,49 @@ UILabel-like view with easy to extend appear/disappear animation
 
 # Demo
 
-* Default ![image](http://zippy.gfycat.com/LimitedWigglyGermanshepherd.gif)
-* Fall ![image](http://zippy.gfycat.com/FantasticGargantuanHog.gif)
-* Duang/Spring ![image](http://zippy.gfycat.com/GrippingMeanJavalina.gif)
-* Flyin ![image](http://zippy.gfycat.com/JampackedCompetentGerbil.gif)
-* Focus ![image](http://zippy.gfycat.com/FeistyShockingGermanshepherd.gif)
-* Shapeshift  ![image](http://zippy.gfycat.com/ForkedScalyKagu.gif)
-* Reveal ![image](http://zippy.gfycat.com/GrouchyLastingGrizzlybear.gif)
-* Thrown ![image](http://zippy.gfycat.com/RashDecimalImperatorangel.gif)
-* Transparency ![image](http://zippy.gfycat.com/NeighboringSlightJumpingbean.gif)
-* Spin ![image](http://zippy.gfycat.com/UnderstatedBoldAlpineroadguidetigerbeetle.gif)
-* Dash ![image](http://zippy.gfycat.com/DeadlyUnlinedJunco.gif)
+* Default 
+
+![image](http://zippy.gfycat.com/LimitedWigglyGermanshepherd.gif)
+
+* Fall
+ 
+![image](http://zippy.gfycat.com/FantasticGargantuanHog.gif)
+
+* Duang/Spring 
+
+![image](http://zippy.gfycat.com/GrippingMeanJavalina.gif)
+
+* Flyin 
+
+![image](http://zippy.gfycat.com/JampackedCompetentGerbil.gif)
+
+* Focus 
+
+![image](http://zippy.gfycat.com/FeistyShockingGermanshepherd.gif)
+
+
+* Shapeshift  
+
+![image](http://zippy.gfycat.com/ForkedScalyKagu.gif)
+
+* Reveal 
+
+![image](http://zippy.gfycat.com/GrouchyLastingGrizzlybear.gif)
+ 
+* Thrown
+
+ ![image](http://zippy.gfycat.com/RashDecimalImperatorangel.gif)
+
+* Transparency 
+
+![image](http://zippy.gfycat.com/NeighboringSlightJumpingbean.gif)
+
+* Spin 
+
+![image](http://zippy.gfycat.com/UnderstatedBoldAlpineroadguidetigerbeetle.gif)
+* Dash 
+
+![image](http://zippy.gfycat.com/DeadlyUnlinedJunco.gif)
 * More to come
 
 
