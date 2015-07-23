@@ -59,18 +59,18 @@ UILabel-like view with easy to extend appear/disappear animation
 
 
 # How to use
-`ZCAnimatedLabel` is available via CocoaPods. If you don't need all the effect subclasses, simply drag `ZCAnimatedLabel.(h|m)`, `ZCCoreTextLayout.(h|m)` and `ZCEasingUtil.(h|m)` into your project and start customizing
+`ZCAnimatedLabel` is available via CocoaPods. If you don't need all the effect subclasses, simply drag `ZCAnimatedLabel.(h|m)`, `ZCCoreTextLayout.(h|m)` and `ZCEasingUtil.(h|m)` into your project and start customizing your own.
 
 
 # Subclassing
-`ZCAnimatedLabel` has two modes: non-layer based and layer based. In the first mode, `ZCAnimatedLabel` is a flat `UIView`, everything and every stage of animation is drawn using Core Graphics, you can customize redraw area for your animation for better performance. Override the following methods:
+`ZCAnimatedLabel` has two modes: non-layer based and layer based. In the first mode, `ZCAnimatedLabel` is a flat `UIView`, everything and every stage of animation is drawn using Core Graphics, you can customize redraw area for your animation for better performance. Following methods can be overriden:
 
 * `- (void) textBlockAttributesInit: (ZCTextBlock *) textBlock;`
 * `- (void) appearStateDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock;`
 * `- (void) disappearStateDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock;`
 * `- (CGRect) redrawAreaForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock;`
 
-Second option is layer based, where each text block is a simple `CALayer`, 3D tranform is possible in this mode by setting layer's `transform` property, if redraw area is bigger and not too much text blocks, this can achive a performance gain. Set `self.layerBased` to `YES` and override these methods for customization:
+Second option is layer based, where each text block is a simple `CALayer`, 3D tranform is possible in this mode by setting layer's `transform` property, if redraw area is bigger and not too many text blocks, this can achive a performance gain. Set `self.layerBased` to `YES` and override following methods for customization:
 
 * `- (void) textBlockAttributesInit: (ZCTextBlock *) textBlock;`
 * `- (void) appearStateLayerChangesForTextBlock: (ZCTextBlock *) textBlock;`
@@ -78,7 +78,7 @@ Second option is layer based, where each text block is a simple `CALayer`, 3D tr
 
 
 # Todo
-* Flatten CALayer no longer animating into a single backing store and reuse CALayer for animating layers. (Better performance for layerBased implementation)
+* Flatten CALayer no longer animating into a single backing store and reuse CALayer for animating layers. (Even better performance for layerBased implementation)
 * More Effects, possily glyph related ones
 * Use core animation emmiter
 
