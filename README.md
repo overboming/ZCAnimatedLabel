@@ -63,7 +63,7 @@ UILabel-like view with easy to extend appear/disappear animation
 
 
 # Subclassing
-`ZCAnimatedLabel` has two modes: non-layer based and layer based. In the first mode, `ZCAnimatedLabel` is a flat `UIView`, everything and every stage of animation is drawn using Core Graphics, you can customize redraw area for your animation for better performance. Following methods can be overriden:
+`ZCAnimatedLabel` has two modes: non-layer based and layer based. In the first mode, `ZCAnimatedLabel` is a flat `UIView`, every stage of animation is drawn using Core Graphics, you can customize redraw area for your animation for better performance. Following methods can be overriden:
 
 * `- (void) textBlockAttributesInit: (ZCTextBlock *) textBlock;`
 * `- (void) appearStateDrawingForRect: (CGRect) rect textBlock: (ZCTextBlock *) textBlock;`
@@ -78,7 +78,7 @@ Second option is layer based, where each text block is a simple `CALayer`, 3D tr
 
 
 # Todo
-* Flatten CALayer no longer animating into a single backing store and reuse CALayer for animating layers. (Even better performance for layerBased implementation)
+* Merge CALayers no longer animating into a single backing store and reuse CALayer for animating layers. (Even better performance for layerBased implementation)
 * More Effects, possily glyph related ones
 * Use core animation emmiter
 
@@ -86,7 +86,7 @@ Second option is layer based, where each text block is a simple `CALayer`, 3D tr
 
 # Thanks to
 
-* `LTMorhpingLabel` for heavy inspiration
-* `AGGeometryKit` for arbitrary shape 3D transform
+* [`LTMorhpingLabel`](https://github.com/lexrus/LTMorphingLabel) for heavy inspiration
+* [`AGGeometryKit`](https://github.com/hfossli/AGGeometryKit) for arbitrary shape 3D transform
 
 
