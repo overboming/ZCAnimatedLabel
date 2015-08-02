@@ -1,6 +1,8 @@
 # ZCAnimatedLabel
 UILabel-like view with easy to extend appear/disappear animation
 
+[![CodeHunt.io](https://img.shields.io/badge/vote-codehunt.io-02AFD1.svg)](http://codehunt.io/sub/zcanimatedlabel/?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)   
+
 # Features
 * Rich text support (with NSAttributedString)
 * Group aniamtion by character/word/line
