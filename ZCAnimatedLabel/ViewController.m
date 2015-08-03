@@ -18,7 +18,6 @@
 #import "ZCRevealLabel.h"
 #import "ZCSpinLabel.h"
 #import "ZCDashLabel.h"
-#import "ZCRollingNumberLabel.h"
 
 #import <objc/runtime.h>
 
@@ -39,13 +38,13 @@
 
 - (IBAction) changeEffect: (id) sender
 {
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Throw", @"Shapeshift", @"Default", @"Duang", @"Fall", @"Alpha", @"Flyin", @"Blur", @"Reveal", @"Spin", @"Dash", @"RollingNumber", nil];
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Throw", @"Shapeshift", @"Default", @"Duang", @"Fall", @"Alpha", @"Flyin", @"Blur", @"Reveal", @"Spin", @"Dash", nil];
     [sheet showInView:self.view];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex > 11) {
+    if (buttonIndex > 10) {
         return;
     }
     
@@ -87,11 +86,8 @@
         object_setClass(self.label, [ZCDashLabel class]);
         self.label.layerBased = YES;
     }
-    else if (buttonIndex == 11) {
-        object_setClass(self.label, [ZCRollingNumberLabel class]);
-    }
     
-    if (buttonIndex < 12) {
+    if (buttonIndex < 11) {
         [self.effectButton setTitle:[actionSheet buttonTitleAtIndex:buttonIndex] forState:UIControlStateNormal];
     }
     
@@ -132,36 +128,24 @@
 {
     self.label.animationDuration = self.durationSlider.value;
     self.label.animationDelay = self.diffSlider.value;
+    self.label.text = @"When lilacs last in the door-yard bloom’d,\n当紫丁香最近在庭园中开放的时候，\nAnd the great star early droop’d in the western sky in the night,\n那颗硕大的星星在西方的夜空陨落了，\nI mourn’d—and yet shall mourn with ever-returning spring.\n我哀悼着，并将随着一年一度的春光永远地哀悼着。";
+    NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    style.lineSpacing = 5;
+    style.alignment = NSTextAlignmentCenter;
+    NSMutableAttributedString *mutableString = [[[NSAttributedString alloc] initWithString:self.label.text attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:20], NSParagraphStyleAttributeName : style, NSForegroundColorAttributeName : [UIColor blackColor]}] mutableCopy];
+    [mutableString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:[mutableString.string rangeOfString:@"sky"]];
+    [mutableString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:28] range:[mutableString.string rangeOfString:@"sky"]];
+    [mutableString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:0.7843 green:0.6352 blue:0.7843 alpha:1] range:[mutableString.string rangeOfString:@"lilacs"]];
+    [mutableString addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor] range:[mutableString.string rangeOfString:@"spring"]];
+    [mutableString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:1] range:[mutableString.string rangeOfString:@"mourn’d"]];
+    
+    [mutableString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:[mutableString.string rangeOfString:@"夜空"]];
+    [mutableString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:28] range:[mutableString.string rangeOfString:@"夜空"]];
+    [mutableString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:0.7843 green:0.6352 blue:0.7843 alpha:1] range:[mutableString.string rangeOfString:@"紫丁香"]];
+    [mutableString addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor] range:[mutableString.string rangeOfString:@"春光"]];
+    [mutableString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:1] range:[mutableString.string rangeOfString:@"哀悼"]];
 
-    if ([self.label isMemberOfClass:[ZCRollingNumberLabel class]]) {
-        ZCRollingNumberLabel *label = (ZCRollingNumberLabel *)self.label;
-        label.startValue = @0;
-        label.endValue = @100;
-        label.attributedString = [[[NSAttributedString alloc] initWithString:[label.endValue description] attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:20], NSForegroundColorAttributeName : [UIColor blackColor]}] mutableCopy];
-    }
-    else {
-//        self.label.text = @"When lilacs last in the door-yard bloom’d,\n当紫丁香最近在庭园中开放的时候，\nAnd the great star early droop’d in the western sky in the night,\n那颗硕大的星星在西方的夜空陨落了，\nI mourn’d—and yet shall mourn with ever-returning spring.\n我哀悼着，并将随着一年一度的春光永远地哀悼着。";
-//        NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-//        style.lineSpacing = 5;
-//        style.alignment = NSTextAlignmentCenter;
-//        NSMutableAttributedString *mutableString = [[[NSAttributedString alloc] initWithString:self.label.text attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:20], NSParagraphStyleAttributeName : style, NSForegroundColorAttributeName : [UIColor blackColor]}] mutableCopy];
-//        [mutableString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:[mutableString.string rangeOfString:@"sky"]];
-//        [mutableString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:28] range:[mutableString.string rangeOfString:@"sky"]];
-//        [mutableString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:0.7843 green:0.6352 blue:0.7843 alpha:1] range:[mutableString.string rangeOfString:@"lilacs"]];
-//        [mutableString addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor] range:[mutableString.string rangeOfString:@"spring"]];
-//        [mutableString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:1] range:[mutableString.string rangeOfString:@"mourn’d"]];
-//        
-//        [mutableString addAttribute:NSForegroundColorAttributeName value:[UIColor blueColor] range:[mutableString.string rangeOfString:@"夜空"]];
-//        [mutableString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:28] range:[mutableString.string rangeOfString:@"夜空"]];
-//        [mutableString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:0.7843 green:0.6352 blue:0.7843 alpha:1] range:[mutableString.string rangeOfString:@"紫丁香"]];
-//        [mutableString addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor] range:[mutableString.string rangeOfString:@"春光"]];
-//        [mutableString addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:1] range:[mutableString.string rangeOfString:@"哀悼"]];
-//        
-//        self.label.attributedString = mutableString;
-        self.label.text = @"哈哈啊";
-        self.label.font = [UIFont systemFontOfSize:30];
-        self.label.preferredMaxLayoutWidth = 200;
-    }
+    self.label.attributedString = mutableString;
     
     if (appear) {
         [self.label startAppearAnimation];

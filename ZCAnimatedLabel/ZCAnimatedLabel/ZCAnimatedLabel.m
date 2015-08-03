@@ -186,6 +186,10 @@
     }];
     
     self.animationDurationTotal = maxDuration;
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6.0) {
+        [self invalidateIntrinsicContentSize]; //reset intrinsicContentSize
+    }
 }
 
 #pragma Label related
