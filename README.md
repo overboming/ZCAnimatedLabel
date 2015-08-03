@@ -86,7 +86,7 @@ Second option is layer based, where each text block is a simple `CALayer`, 3D tr
 
 # Thanks to
 
-* [`LTMorhpingLabel`](https://github.com/lexrus/LTMorphingLabel) for heavy inspiration
-* [`AGGeometryKit`](https://github.com/hfossli/AGGeometryKit) for arbitrary shape 3D transform
+* [`LTMorhpingLabel`](https://github.com/lexrus/LTMorphingLabel) for heavy inspiration. If you like `ZCAnimatedLabel`, you should definitely this one out. 
+* [`AGGeometryKit`](https://github.com/hfossli/AGGeometryKit) for arbitrary shape 3D transform code piece used in `ZCDashLabel`
 
 
