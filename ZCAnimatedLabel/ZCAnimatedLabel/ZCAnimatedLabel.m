@@ -142,6 +142,12 @@
 }
 
 
+- (CGSize) intrinsicContentSize
+{
+    return CGSizeMake(self.preferredMaxLayoutWidth > 0 ? self.preferredMaxLayoutWidth : 200, self.layoutTool.estimatedHeight);
+}
+
+
 - (void) _layoutForChangedString
 {
     [self.layoutTool cleanLayout];
