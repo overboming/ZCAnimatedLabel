@@ -81,6 +81,14 @@ typedef NS_ENUM(NSInteger, ZCAnimatedLabelAppearDirection)
  */
 @property (nonatomic, readonly) BOOL animatingAppear;
 
+
+/**
+ * preferedMaxLayoutWidth
+ */
+
+@property (nonatomic, assign) CGFloat preferredMaxLayoutWidth;
+
+
 - (void) sizeToFit;
 
 - (void) startAppearAnimation;

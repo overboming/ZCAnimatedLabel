@@ -40,6 +40,13 @@
     return self;
 }
 
+- (instancetype) init {
+    if (self = [super init]) {
+        [self commonInit];
+    }
+    return self;
+}
+
 - (void) commonInit
 {
     self.backgroundColor = [UIColor clearColor];
@@ -56,7 +63,7 @@
     
     _useDefaultDrawing = YES;
     _text = @"";
-    _font = [UIFont systemFontOfSize:10];
+    _font = [UIFont systemFontOfSize:15];
     
     _debugTextBlockBounds = NO;
     _layerBased = NO;
@@ -151,8 +158,8 @@
 - (void) _layoutForChangedString
 {
     [self.layoutTool cleanLayout];
-    if (!self.attributedString) {
-        self.attributedString = [[NSAttributedString alloc] initWithString:self.text attributes:@{NSFontAttributeName : self.font}];
+    if (self.text.length) {
+        _attributedString = [[NSAttributedString alloc] initWithString:self.text attributes:@{NSFontAttributeName : self.font}];
     }
     self.layoutTool.layerBased = self.layerBased;
     
@@ -216,10 +223,10 @@
     UIFont *font = [attributes objectForKey:NSFontAttributeName];
     UIColor *color = [attributes objectForKey:NSForegroundColorAttributeName];
     if (font) {
-        self.font = font;
+        _font = font;
     }
     if (color) {
-        self.textColor = color;
+        _textColor = color;
     }
     [self _layoutForChangedString];
     [self setNeedsDisplay];
