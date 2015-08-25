@@ -193,20 +193,14 @@
             textBlock.textRange = enclosingRange;
             NSMutableAttributedString *subLineString = [[attributedString attributedSubstringFromRange:NSMakeRange(enclosingRange.location + lineRange.location, enclosingRange.length)] mutableCopy];
             [subLineString removeAttribute:NSParagraphStyleAttributeName range:NSMakeRange(0, subLineString.length)];
-            UIFont *font = [subLineString attribute:NSFontAttributeName atIndex:0 effectiveRange:NULL];
             [textBlock updateBaseAttributedString:subLineString];
             
             CGFloat startOffset = CTLineGetOffsetForStringIndex(line, enclosingRange.location + lineRange.location, NULL);
             CGFloat endOffset = CTLineGetOffsetForStringIndex(line, enclosingRange.location + enclosingRange.length + lineRange.location, NULL);
             
-            CGFloat realHeight = font.xHeight + font.ascender + font.descender;
-            CGFloat absAscender = font.descender > 0 ? font.descender : -font.descender;
-            CGFloat originDiff = (maxCharHeight - realHeight) - (maxDescender - absAscender);
+            CGFloat realHeight = lineHeight;
+            CGFloat originDiff = 0;
 
-            if (self.groupType == ZCLayoutGroupLine) {
-                realHeight = lineHeight;
-                originDiff = 0;
-            }
             textBlock.charRect = CGRectMake(startOffset + lineOrigins[i].x, startOffsetY + originDiff, endOffset - startOffset, realHeight);
             [textAttributes addObject:textBlock];
             
