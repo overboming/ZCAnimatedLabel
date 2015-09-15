@@ -158,7 +158,7 @@
 - (void) _layoutForChangedString
 {
     [self.layoutTool cleanLayout];
-    if (self.text.length) {
+    if (!_attributedString) {
         _attributedString = [[NSAttributedString alloc] initWithString:self.text attributes:@{NSFontAttributeName : self.font}];
     }
     self.layoutTool.layerBased = self.layerBased;
