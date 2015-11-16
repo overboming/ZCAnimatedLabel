@@ -11,18 +11,18 @@
 
 #import "ZCEasingUtil.h"
 
-CGFloat QuadraticEaseIn(CGFloat p)
+CGFloat ZCQuadraticEaseIn(CGFloat p)
 {
     return p * p;
 }
 
-CGFloat QuadraticEaseOut(CGFloat p)
+CGFloat ZCQuadraticEaseOut(CGFloat p)
 {
     return -(p * (p - 2));
 }
 
 
-CGFloat BounceEaseOut(CGFloat p)
+CGFloat ZCBounceEaseOut(CGFloat p)
 {
     if(p < 1/2.75)
     {
@@ -45,18 +45,18 @@ CGFloat BounceEaseOut(CGFloat p)
     }
 }
 
-CGFloat BounceEaseIn(CGFloat p)
+CGFloat ZCBounceEaseIn(CGFloat p)
 {
-    return 1 - BounceEaseOut(1 - p);
+    return 1 - ZCBounceEaseOut(1 - p);
 }
 
-CGFloat BackEaseIn(CGFloat p)
+CGFloat ZCBackEaseIn(CGFloat p)
 {
     CGFloat s = 1.70158;
     return (p * p * ((s + 1.0) * p - s));
 }
 
-CGFloat BackEaseOut(CGFloat p)
+CGFloat ZCBackEaseOut(CGFloat p)
 {
     CGFloat s = 1.70158;
     CGFloat p2 = p - 1.0;
@@ -117,32 +117,32 @@ CGFloat BackEaseOut(CGFloat p)
 
 + (CGFloat) easeInWithStartValue: (CGFloat) startValue endValue: (CGFloat) endValue time:(CGFloat) progress
 {
-    return startValue + (endValue - startValue) * QuadraticEaseIn(progress);
+    return startValue + (endValue - startValue) * ZCQuadraticEaseIn(progress);
 }
 
 + (CGFloat) easeOutWithStartValue: (CGFloat) startValue endValue: (CGFloat) endValue time:(CGFloat) progress
 {
-    return startValue + (endValue - startValue) * QuadraticEaseOut(progress);
+    return startValue + (endValue - startValue) * ZCQuadraticEaseOut(progress);
 }
 
 + (CGFloat) easeOutBounceStartValue: (CGFloat) startValue endValue: (CGFloat) endValue time: (CGFloat) progress
 {
-    return startValue + (endValue - startValue) * BounceEaseOut(progress);
+    return startValue + (endValue - startValue) * ZCBounceEaseOut(progress);
 }
 
 + (CGFloat) easeInBounceStartValue: (CGFloat) startValue endValue: (CGFloat) endValue time: (CGFloat) progress
 {
-    return startValue + (endValue - startValue) * BounceEaseIn(progress);
+    return startValue + (endValue - startValue) * ZCBounceEaseIn(progress);
 }
 
 + (CGFloat) easeOutBackStartValue: (CGFloat) startValue endValue: (CGFloat) endValue time: (CGFloat) progress
 {
-    return startValue + (endValue - startValue) * BackEaseOut(progress);
+    return startValue + (endValue - startValue) * ZCBackEaseOut(progress);
 }
 
 + (CGFloat) easeInBackStartValue: (CGFloat) startValue endValue: (CGFloat) endValue time: (CGFloat) progress
 {
-    return startValue + (endValue - startValue) * BackEaseIn(progress);
+    return startValue + (endValue - startValue) * ZCBackEaseIn(progress);
 }
 
 @end
