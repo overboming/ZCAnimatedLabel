@@ -143,6 +143,12 @@
 
 #pragma mark layout related
 
+- (void)layoutSubviews {
+  [super layoutSubviews];
+
+  [self _layoutForChangedString];
+}
+
 - (void) sizeToFit
 {
     self.frame = CGRectMake(CGRectGetMinX(self.frame), CGRectGetMinY(self.frame), CGRectGetWidth(self.frame), self.layoutTool.estimatedHeight);
