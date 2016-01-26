@@ -118,7 +118,7 @@
     
     self.estimatedSize = s;
     
-    frameRect = CGRectMake(0, 0, s.width, s.height);
+    frameRect = CGRectMake(0, 0, size.width, size.height);
     CGPathRef framePath = CGPathCreateWithRect(frameRect, NULL);
     ctFrame = CTFramesetterCreateFrame(framesetter, rangeAll, framePath, NULL);
     CGPathRelease(framePath);
