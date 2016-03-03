@@ -19,7 +19,6 @@ Pod::Spec.new do |s|
   s.homepage     = "http://github.com/overboming/ZCAnimatedLabel"
   s.license      = "MIT"
   s.author             = { "Chen Zhang" => "overboming@gmail.com" }
-  #s.platform     = :ios
   s.ios.deployment_target = "5.0"
   s.tvos.deployment_target = '9.0'
   s.source       = { :git => "https://github.com/overboming/ZCAnimatedLabel.git", :tag => "0.0.4" }
