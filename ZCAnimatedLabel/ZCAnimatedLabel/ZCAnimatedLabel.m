@@ -192,7 +192,7 @@
     }
 }
 
-#pragma Label related
+#pragma mark Label related
 
 - (void) setNeedsDisplayInRect:(CGRect)rect
 {
