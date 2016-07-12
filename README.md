@@ -3,7 +3,7 @@ UILabel-like view with easy to extend appear/disappear animation
 
 # Features
 * Rich text support (with NSAttributedString)
-* Group aniamtion by character/word/line
+* Group animation by character/word/line
 * Customizable animation start delay for each text block
 * Great performance, only changed area is redrawn
 * Optional layer-based implementation
@@ -24,7 +24,7 @@ UILabel-like view with easy to extend appear/disappear animation
 
 ![image](http://zippy.gfycat.com/GrippingMeanJavalina.gif)
 
-* Flyin 
+* Flying 
 
 ![image](http://zippy.gfycat.com/JampackedCompetentGerbil.gif)
 
