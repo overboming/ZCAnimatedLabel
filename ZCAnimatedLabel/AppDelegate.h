@@ -2,15 +2,12 @@
 //  AppDelegate.h
 //  ZCAnimatedLabel
 //
-//  Created by Chen Zhang on 2/13/15.
-//  Copyright (c) 2015 somewhere. All rights reserved.
+//  Created by Glenn Posadas on 12/10/20.
 //
 
 #import <UIKit/UIKit.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
-
-@property (strong, nonatomic) UIWindow *window;
 
 
 @end

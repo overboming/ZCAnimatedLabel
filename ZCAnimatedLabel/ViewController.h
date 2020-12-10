@@ -2,8 +2,7 @@
 //  ViewController.h
 //  ZCAnimatedLabel
 //
-//  Created by Chen Zhang on 2/13/15.
-//  Copyright (c) 2015 somewhere. All rights reserved.
+//  Created by Glenn Posadas on 12/10/20.
 //
 
 #import <UIKit/UIKit.h>
@@ -30,4 +29,3 @@
 @property (atomic) IBOutlet UISwitch *debugRedraw;
 @property (atomic) IBOutlet UISwitch *debugFrames;
 @end
-

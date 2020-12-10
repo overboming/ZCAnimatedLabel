@@ -2,8 +2,7 @@
 //  ViewController.m
 //  ZCAnimatedLabel
 //
-//  Created by Chen Zhang on 2/13/15.
-//  Copyright (c) 2015 ;. All rights reserved.
+//  Created by Glenn Posadas on 12/10/20.
 //
 
 #import "ViewController.h"
