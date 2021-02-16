@@ -2,7 +2,8 @@
 //  SceneDelegate.m
 //  ZCAnimatedLabel
 //
-//  Created by Glenn Posadas on 12/10/20.
+//  Created by Chen Zhang on 2/13/15.
+//  Copyright (c) 2015 somewhere. All rights reserved.
 //
 
 #import "SceneDelegate.h"
