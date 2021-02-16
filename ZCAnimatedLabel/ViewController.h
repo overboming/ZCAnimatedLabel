@@ -30,4 +30,3 @@
 @property (atomic) IBOutlet UISwitch *debugRedraw;
 @property (atomic) IBOutlet UISwitch *debugFrames;
 @end
-
